@@ -2,5 +2,5 @@ package toyrobotsimulator;
 
 public interface SimulationFactory {
 
-	Simulation createSimulation();
+	Simulation create();
 }

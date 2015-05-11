@@ -9,7 +9,14 @@ public class Simulator {
 	}
 	
 	public void simulate() {
-		Simulation simulation = simulationFactory.createSimulation();
+		run(simulation());
+	}
+	
+	private void run(Simulation simulation) {
 		simulation.run();
+	}
+	
+	private Simulation simulation() {
+		return simulationFactory.create();
 	}
 }

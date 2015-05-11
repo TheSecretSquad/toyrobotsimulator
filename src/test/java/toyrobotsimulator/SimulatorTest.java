@@ -20,13 +20,13 @@ public class SimulatorTest {
 	@Before
 	public void setUp() throws Exception {
 		simulator = new Simulator(simulationFactory);
-		when(simulationFactory.createSimulation()).thenReturn(simulation);
+		when(simulationFactory.create()).thenReturn(simulation);
 	}
 
 	@Test
 	public void WhenSimulating_ShouldCreateSimulation() {
 		simulator.simulate();
-		verify(simulationFactory).createSimulation();
+		verify(simulationFactory).create();
 	}
 	
 	@Test
