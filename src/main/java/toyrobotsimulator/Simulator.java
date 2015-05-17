@@ -12,7 +12,7 @@ public class Simulator {
 		run(simulation());
 	}
 	
-	private void run(Simulation simulation) {
+	private void run(final Simulation simulation) {
 		simulation.run();
 	}
 	

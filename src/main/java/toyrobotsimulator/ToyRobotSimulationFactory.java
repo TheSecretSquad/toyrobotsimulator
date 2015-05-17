@@ -3,6 +3,6 @@ package toyrobotsimulator;
 public class ToyRobotSimulationFactory implements SimulationFactory {
 
 	public Simulation create() {
-		return new ToyRobotSimulation();
+		return new ToyRobotSimulation(System.out);
 	}
 }
