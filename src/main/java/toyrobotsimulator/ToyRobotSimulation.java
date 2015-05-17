@@ -1,5 +1,8 @@
 package toyrobotsimulator;
 
-public interface ToyRobotSimulation extends Simulation {
-	
+public class ToyRobotSimulation implements Simulation {
+
+	public void run() {
+
+	}
 }
