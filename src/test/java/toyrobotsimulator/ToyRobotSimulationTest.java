@@ -21,11 +21,11 @@ public class ToyRobotSimulationTest {
 	@Mock
 	private CommandInterpreter commandInterpreter;
 	@Mock
-	private Board board;
+	private InterpretedCommandReceiver interpretedCommandReceiver;
 	
 	@Before
 	public void setUp() throws Exception {
-		toyRobotSimulation = new ToyRobotSimulation(printStream, board, commandInterpreter, commands);
+		toyRobotSimulation = new ToyRobotSimulation(printStream, interpretedCommandReceiver, commandInterpreter, commands);
 	}
 
 	@Test
@@ -35,8 +35,8 @@ public class ToyRobotSimulationTest {
 	}
 	
 	@Test
-	public void WhenRun_SendsInterpretedCommandsToTheBoard() {
+	public void WhenRun_SendsInterpretedCommandsToInterpretedCommandReceiver() {
 		toyRobotSimulation.run();
-		verify(commandInterpreter).interpretCommandsTo(commands, board);
+		verify(commandInterpreter).interpretCommandsTo(commands, interpretedCommandReceiver);
 	}
 }
