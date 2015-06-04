@@ -17,17 +17,17 @@ public class CommandLineCommandSourceTest {
 	@Mock
 	private CommandParser commandParser;
 	@Mock
-	private CommandLineInput commandLineInput;
+	private CommandLine commandLine;
 	
 	@Before
 	public void setUp() throws Exception {
-		commandLineCommandSource = new CommandLineCommandSource(commandParser, commandLineInput);
+		commandLineCommandSource = new CommandLineCommandSource(commandParser, commandLine);
 	}
 
 	@Test
 	public void WhenParsing_BeginsReceivingFromCommandLineInput() {
 		commandLineCommandSource.parseTo(commandReceiver);
-		verify(commandLineInput).beginReceiving(commandLineCommandSource);
+		verify(commandLine).beginReceiving(commandLineCommandSource);
 	}
 	
 	@Test

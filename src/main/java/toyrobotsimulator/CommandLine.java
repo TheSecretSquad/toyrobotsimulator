@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface CommandLineInput {
+public interface CommandLine {
 
 	void beginReceiving(final CommandLineInputTarget commandLineInputTarget);
 }

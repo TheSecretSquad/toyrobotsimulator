@@ -3,17 +3,17 @@ package toyrobotsimulator;
 public class CommandLineCommandSource implements CommandSource, CommandLineInputTarget {
 
 	private CommandParser commandParser;
-	private CommandLineInput commandLineInput;
+	private CommandLine commandLine;
 	private CommandReceiver commandReceiver;
 
-	public CommandLineCommandSource(final CommandParser commandParser, final CommandLineInput commandLineInput) {
+	public CommandLineCommandSource(final CommandParser commandParser, final CommandLine commandLine) {
 		this.commandParser = commandParser;
-		this.commandLineInput = commandLineInput;
+		this.commandLine = commandLine;
 	}
 
 	public void parseTo(final CommandReceiver commandReceiver) {
 		this.commandReceiver = commandReceiver;
-		commandLineInput.beginReceiving(this);
+		commandLine.beginReceiving(this);
 	}
 
 	public void addLine(final String input) {
