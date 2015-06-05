@@ -13,7 +13,7 @@ public class CommandLineCommandSource implements CommandSource, CommandLineInput
 
 	public void parseTo(final CommandReceiver commandReceiver) {
 		this.commandReceiver = commandReceiver;
-		commandLine.beginReceiving(this);
+		commandLine.receiveInputTo(this);
 	}
 
 	public void addLine(final String input) {

@@ -27,12 +27,11 @@ public class CommandLineCommandSourceTest {
 	@Test
 	public void WhenParsing_BeginsReceivingFromCommandLineInput() {
 		commandLineCommandSource.parseTo(commandReceiver);
-		verify(commandLine).beginReceiving(commandLineCommandSource);
+		verify(commandLine).receiveInputTo(commandLineCommandSource);
 	}
 	
 	@Test
-	public void WhenInputLineAdded_ParsesCommand() {
-		// Is it bad that we have to call parseTo first or the commandReceiver will be null?
+	public void WhenParsing_LinesAddedFromInputAreParsed() {
 		commandLineCommandSource.parseTo(commandReceiver);
 		String inputCommand = "command";
 		commandLineCommandSource.addLine(inputCommand);
