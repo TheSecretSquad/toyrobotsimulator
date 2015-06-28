@@ -17,15 +17,15 @@ public class ToyRobotInputParser implements InputParser {
 	}
 
 	@Override
-	public void parseTextTo(final String input, final CommandReceiver commandReceiver) {
-		parseAsCommandsTo(tokenStreamFrom(input), commandReceiver);
+	public void parseTextTo(final String text, final CommandReceiver commandReceiver) {
+		parseAsCommandsTo(tokenStreamFrom(text), commandReceiver);
 	}
 	
-	private Stream<String> tokenStreamFrom(final String input) {
-		return Arrays.stream(input.split(System.lineSeparator()));
+	private Stream<String> tokenStreamFrom(final String text) {
+		return Arrays.stream(text.split(System.lineSeparator()));
 	}
 	
 	private void parseAsCommandsTo(final Stream<String> tokens, final CommandReceiver commandReceiver) {
-		tokens.forEach((String inputCommandString) -> inputCommandParser.parseCommandTextTo(inputCommandString, commandReceiver));
+		tokens.forEach((String commandText) -> inputCommandParser.parseCommandTextTo(commandText, commandReceiver));
 	}
 }

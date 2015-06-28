@@ -2,5 +2,5 @@ package toyrobotsimulator;
 
 public interface InputParser {
 
-	void parseTextTo(final String input, final CommandReceiver commandReceiver);
+	void parseTextTo(final String text, final CommandReceiver commandReceiver);
 }
