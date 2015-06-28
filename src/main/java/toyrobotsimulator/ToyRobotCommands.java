@@ -2,7 +2,7 @@ package toyrobotsimulator;
 
 public class ToyRobotCommands implements Commands {
 
-	private CommandSource commandSource;
+	private final CommandSource commandSource;
 
 	public ToyRobotCommands(final CommandSource commandSource) {
 		this.commandSource = commandSource;

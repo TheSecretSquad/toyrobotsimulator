@@ -17,15 +17,22 @@ public class ToyRobotCommandInterpreterTest {
 	private Commands commands;
 	@Mock
 	private InterpretedCommandReceiver interpretedCommandReceiver;
+	private final CommandName moveCommandName = new ToyRobotCommandName("MOVE");
 	
 	@Before
 	public void setUp() throws Exception {
-		toyRobotCommandInterpreter = new ToyRobotCommandInterpreter();
+		toyRobotCommandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver);
 	}
 
 	@Test
-	public void WhenInterpretingCommands_ReadsCommandsToReceiver() {
-		toyRobotCommandInterpreter.interpretCommandsTo(commands, interpretedCommandReceiver);
+	public void WhenInterpretingCommands_ReadsCommandsToCommandReceiver() {
+		toyRobotCommandInterpreter.interpretCommands(commands);
 		verify(commands).readTo(toyRobotCommandInterpreter);
+	}
+	
+	@Test
+	public void WhenSentCommandName_SendsCommandToInterpetedCommandReceiver() {
+		toyRobotCommandInterpreter.sendCommandName(moveCommandName);
+		verify(interpretedCommandReceiver).issueCommand(isA(MoveCommand.class));
 	}
 }

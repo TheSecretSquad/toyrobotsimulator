@@ -25,7 +25,7 @@ public class ToyRobotSimulationTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		toyRobotSimulation = new ToyRobotSimulation(printStream, interpretedCommandReceiver, commandInterpreter, commands);
+		toyRobotSimulation = new ToyRobotSimulation(printStream, commandInterpreter, commands);
 	}
 
 	@Test
@@ -37,6 +37,6 @@ public class ToyRobotSimulationTest {
 	@Test
 	public void WhenRun_SendsInterpretedCommandsToInterpretedCommandReceiver() {
 		toyRobotSimulation.run();
-		verify(commandInterpreter).interpretCommandsTo(commands, interpretedCommandReceiver);
+		verify(commandInterpreter).interpretCommands(commands);
 	}
 }
