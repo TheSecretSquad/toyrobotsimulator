@@ -1,12 +1,14 @@
 package toyrobotsimulator;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.inOrder;
 
 import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -32,13 +34,14 @@ public class ToyRobotInputParserTest {
 	}
 
 	@Test
-	public void WhenSentInput_ParsesCommandsByNewLineDelimiter() {
+	public void WhenSentInput_ParsesCommandsInOrderByNewLineDelimiter() {
 		String someCommand = "some command";
 		String otherCommand = "other command";
 		String anotherCommand = "another command";
 		toyRobotInputParser.parseTextTo(createSampleCommandsInput(someCommand, otherCommand, anotherCommand), commandReceiver);
-		verify(inputCommandParser).parseCommandTo(someCommand, commandReceiver);
-		verify(inputCommandParser).parseCommandTo(otherCommand, commandReceiver);
-		verify(inputCommandParser).parseCommandTo(anotherCommand, commandReceiver);
+		InOrder inOrder = inOrder(inputCommandParser);
+		inOrder.verify(inputCommandParser).parseCommandTo(someCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseCommandTo(otherCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseCommandTo(anotherCommand, commandReceiver);
 	}
 }
