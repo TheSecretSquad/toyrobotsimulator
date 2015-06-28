@@ -37,25 +37,25 @@ public class ToyRobotInputCommandParserTest {
 
 	@Test
 	public void WhenParsingCommand_WithNoParameters_ShouldSendCommandNameToReceiver() {
-		toyRobotInputCommandParser.parseCommandTo(commandNameText, commandReceiver);
+		toyRobotInputCommandParser.parseCommandTextTo(commandNameText, commandReceiver);
 		verify(commandReceiver).sendCommandName(commandName);
 	}
 	
 	@Test
 	public void WhenParsingCommand_WithParameters_ShouldSendCommandNameWithParametersToReceiver() {
-		toyRobotInputCommandParser.parseCommandTo(commandNameTextWithParameters, commandReceiver);
+		toyRobotInputCommandParser.parseCommandTextTo(commandNameTextWithParameters, commandReceiver);
 		verify(commandReceiver).sendCommandNameWithParameters(eq(commandName), isA(CommandParameters.class));
 	}
 	
 	@Test
 	public void WhenParsingCommand_ShouldIgnoreEmptyCommandText() {
-		toyRobotInputCommandParser.parseCommandTo(emptyCommandText, commandReceiver);
+		toyRobotInputCommandParser.parseCommandTextTo(emptyCommandText, commandReceiver);
 		verifyNeverSendsCommandNameWithOrWithoutParameters();
 	}
 	
 	@Test
 	public void WhenParsingCommand_ShouldIgnoreCommandTextContainingOnlySpaces() {
-		toyRobotInputCommandParser.parseCommandTo(spacesOnlyCommandText, commandReceiver);
+		toyRobotInputCommandParser.parseCommandTextTo(spacesOnlyCommandText, commandReceiver);
 		verifyNeverSendsCommandNameWithOrWithoutParameters();
 	}
 }

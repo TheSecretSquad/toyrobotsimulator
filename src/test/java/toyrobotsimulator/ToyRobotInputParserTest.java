@@ -40,8 +40,8 @@ public class ToyRobotInputParserTest {
 		String anotherCommand = "another command";
 		toyRobotInputParser.parseTextTo(createSampleCommandsInput(someCommand, otherCommand, anotherCommand), commandReceiver);
 		InOrder inOrder = inOrder(inputCommandParser);
-		inOrder.verify(inputCommandParser).parseCommandTo(someCommand, commandReceiver);
-		inOrder.verify(inputCommandParser).parseCommandTo(otherCommand, commandReceiver);
-		inOrder.verify(inputCommandParser).parseCommandTo(anotherCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseCommandTextTo(someCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseCommandTextTo(otherCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseCommandTextTo(anotherCommand, commandReceiver);
 	}
 }
