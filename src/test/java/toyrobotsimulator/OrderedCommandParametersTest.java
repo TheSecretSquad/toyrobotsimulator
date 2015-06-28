@@ -24,7 +24,7 @@ public class OrderedCommandParametersTest {
 	}
 
 	@Test
-	public void WhenListing_ShouldReceiveInOrdereDeclaredInConstructorArgument() {
+	public void WhenListing_ShouldReceiveInOrderDeclaredInConstructorArgument() {
 		InOrder inOrder = inOrder(commandParameterReceiver, commandParameterReceiver, commandParameterReceiver);
 		orderedCommandParameters.listTo(commandParameterReceiver);
 		inOrder.verify(commandParameterReceiver).receive("first");
