@@ -27,7 +27,7 @@ public class ConsoleCommandSourceTest {
 	}
 	
 	@Test
-	public void WhenParsing_SendsInputToInputParser() {
+	public void WhenParsing_ParsesInputFromConsole() {
 		consoleCommandSource.parseTo(commandReceiver);
 		verify(console).parseInputWithParserTo(inputParser, commandReceiver);
 	}
