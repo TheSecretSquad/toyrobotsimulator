@@ -6,13 +6,23 @@ public class ToyRobotSimulationFactory implements SimulationFactory {
 
 	private static InterpretedCommandReceiver interpretedCommandReceiver = new InterpretedCommandReceiver() {
 			@Override
-			public void issueCommand(Command command) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void issueCommand(Command command) {	System.out.println(command); }
 		};
-	
-	private static CommandInterpreter commandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver);
+		
+	private static ToyRobot toyRobot = new ToyRobot() {
+		@Override
+		public void move() {}
+		@Override
+		public void left() {}
+		@Override
+		public void right() {}
+		@Override
+		public void report() {}
+		@Override
+		public void place(Position position, Direction direction) {}
+	};
+		
+	private static CommandInterpreter commandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver, toyRobot);
 	
 	private static CommandSource commandSource = new ConsoleCommandSource(new TestConsole(), new ToyRobotInputParser(new ToyRobotInputCommandParser()));
 	

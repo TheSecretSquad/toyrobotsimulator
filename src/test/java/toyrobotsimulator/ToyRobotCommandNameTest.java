@@ -16,6 +16,6 @@ public class ToyRobotCommandNameTest {
 
 	@Test
 	public void WhenComparingEqual_IsCaseInsensitive() {
-		assertEquals(new ToyRobotCommandName("TEST"), new ToyRobotCommandName("test"));
+		assertEquals(new CommandName("TEST"), new CommandName("test"));
 	}
 }

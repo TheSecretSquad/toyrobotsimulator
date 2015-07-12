@@ -23,7 +23,7 @@ public class ToyRobotInputCommandParserTest {
 	private final String commandNameTextWithParameters = commandNameText + " " + commandParameters;
 	private final String emptyCommandText = "";
 	private final String spacesOnlyCommandText = "   ";
-	private final CommandName commandName = new ToyRobotCommandName(commandNameText);
+	private final CommandName commandName = new CommandName(commandNameText);
 
 	@Before
 	public void setUp() throws Exception {

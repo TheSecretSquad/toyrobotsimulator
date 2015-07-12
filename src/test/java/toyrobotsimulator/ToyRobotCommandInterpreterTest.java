@@ -17,11 +17,19 @@ public class ToyRobotCommandInterpreterTest {
 	private Commands commands;
 	@Mock
 	private InterpretedCommandReceiver interpretedCommandReceiver;
-	private final CommandName moveCommandName = new ToyRobotCommandName("MOVE");
+	@Mock
+	private CommandParameters commandParameters;
+	@Mock
+	private ToyRobot toyRobot;
+	private final CommandName moveCommandName = new CommandName("MOVE");
+	private final CommandName leftCommandName = new CommandName("LEFT");
+	private final CommandName rightCommandName = new CommandName("RIGHT");
+	private final CommandName reportCommandName = new CommandName("REPORT");
+	private final CommandName placeCommandName = new CommandName("PLACE");
 	
 	@Before
 	public void setUp() throws Exception {
-		toyRobotCommandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver);
+		toyRobotCommandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver, toyRobot);
 	}
 
 	@Test
@@ -31,8 +39,32 @@ public class ToyRobotCommandInterpreterTest {
 	}
 	
 	@Test
-	public void WhenSentCommandName_SendsCommandToInterpetedCommandReceiver() {
+	public void WhenSentMoveCommandName_SendsMoveCommandToInterpetedCommandReceiver() {
 		toyRobotCommandInterpreter.sendCommandName(moveCommandName);
 		verify(interpretedCommandReceiver).issueCommand(isA(MoveCommand.class));
+	}
+	
+	@Test
+	public void WhenSentLeftCommandName_SendsLeftCommandToInterpetedCommandReceiver() {
+		toyRobotCommandInterpreter.sendCommandName(leftCommandName);
+		verify(interpretedCommandReceiver).issueCommand(isA(LeftCommand.class));
+	}
+	
+	@Test
+	public void WhenSentRightCommandName_SendsRightCommandToInterpetedCommandReceiver() {
+		toyRobotCommandInterpreter.sendCommandName(rightCommandName);
+		verify(interpretedCommandReceiver).issueCommand(isA(RightCommand.class));
+	}
+	
+	@Test
+	public void WhenSentReportCommandName_SendsReportCommandToInterpetedCommandReceiver() {
+		toyRobotCommandInterpreter.sendCommandName(reportCommandName);
+		verify(interpretedCommandReceiver).issueCommand(isA(ReportCommand.class));
+	}
+	
+	@Test
+	public void WhenSentPlaceCommandName_SendsPlaceCommandToInterpetedCommandReceiver() {
+		toyRobotCommandInterpreter.sendCommandNameWithParameters(placeCommandName, commandParameters);
+		verify(interpretedCommandReceiver).issueCommand(isA(PlaceCommand.class));
 	}
 }

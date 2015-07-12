@@ -25,17 +25,21 @@ public class ToyRobotInputCommandParser implements InputCommandParser {
 		if(commandTokensCount == 1)
 			commandReceiver.sendCommandName(createCommandNameFromTokens(commandTokens));
 		else if(commandTokensCount > 1)
-			commandReceiver.sendCommandNameWithParameters(createCommandNameFromTokens(commandTokens), createCommandParameters(commandTokens[commandParametersIndex]));
+			commandReceiver.sendCommandNameWithParameters(createCommandNameFromTokens(commandTokens), createCommandParametersFromTokens(commandTokens));
 	}
-
-	private ToyRobotCommandName createCommandNameFromTokens(final String[] commandTokens) {
+	
+	private CommandName createCommandNameFromTokens(final String[] commandTokens) {
 		return createCommandNameFromString(commandTokens[commandNameIndex]);
 	}
 	
-	private ToyRobotCommandName createCommandNameFromString(final String commandName) {
-		return new ToyRobotCommandName(commandName);
+	private CommandName createCommandNameFromString(final String commandName) {
+		return new CommandName(commandName);
 	}
-	
+
+	private CommandParameters createCommandParametersFromTokens(final String[] commandTokens) {
+		return createCommandParameters(commandTokens[commandParametersIndex]);
+	}
+
 	private CommandParameters createCommandParameters(final String parametersString) {
 		String[] parameterTokens = parametersString.split(commandParametersSeparator);
 		
