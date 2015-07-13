@@ -2,10 +2,10 @@ package toyrobotsimulator;
 
 public class ReportCommand implements Command {
 
-	private final ReportActionable reportActionable;
+	private final ReportAction reportAction;
 
-	public ReportCommand(final ReportActionable reportActionable) {
-		this.reportActionable = reportActionable;
+	public ReportCommand(final ReportAction reportAction) {
+		this.reportAction = reportAction;
 	}
 
 	@Override

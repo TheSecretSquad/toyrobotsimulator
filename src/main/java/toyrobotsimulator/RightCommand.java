@@ -2,10 +2,10 @@ package toyrobotsimulator;
 
 public class RightCommand implements Command {
 
-	private final RightActionable rightActionable;
+	private final RightAction rightAction;
 
-	public RightCommand(final RightActionable rightActionable) {
-		this.rightActionable = rightActionable;
+	public RightCommand(final RightAction rightAction) {
+		this.rightAction = rightAction;
 	}
 
 	@Override

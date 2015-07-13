@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface RightActionable {
+public interface RightAction {
 
 	void right();
 }

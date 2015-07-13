@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface PlaceActionable {
+public interface PlaceAction {
 
 	void place(final Position position, final Direction direction);
 }

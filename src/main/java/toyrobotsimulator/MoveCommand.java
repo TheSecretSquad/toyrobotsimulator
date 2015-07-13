@@ -2,10 +2,10 @@ package toyrobotsimulator;
 
 public class MoveCommand implements Command {
 
-	private final MoveActionable moveActionable;
+	private final MoveAction moveAction;
 	
-	public MoveCommand(final MoveActionable moveActionable) {
-		this.moveActionable = moveActionable;
+	public MoveCommand(final MoveAction moveAction) {
+		this.moveAction = moveAction;
 	}
 
 	@Override

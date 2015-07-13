@@ -13,16 +13,16 @@ public class PlaceCommandTest {
 	@Mock
 	private CommandParameters commandParameters;
 	@Mock
-	private PlaceActionable placeActionable;
-	
+	private PlaceAction placeAction;
 
 	@Before
 	public void setUp() throws Exception {
-		placeCommand = new PlaceCommand(commandParameters, placeActionable);
+		placeCommand = new PlaceCommand(commandParameters, placeAction);
 	}
 
 	@Test
 	public void test() {
+		
 		
 	}
 }

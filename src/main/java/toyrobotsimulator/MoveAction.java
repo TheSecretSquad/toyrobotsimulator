@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface MoveActionable {
+public interface MoveAction {
 
 	void move();
 }

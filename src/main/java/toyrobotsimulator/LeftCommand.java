@@ -2,10 +2,10 @@ package toyrobotsimulator;
 
 public class LeftCommand implements Command {
 
-	private final LeftActionable leftActionable;
+	private final LeftAction leftAction;
 	
-	public LeftCommand(final LeftActionable leftActionable) {
-		this.leftActionable = leftActionable;
+	public LeftCommand(final LeftAction leftAction) {
+		this.leftAction = leftAction;
 	}
 
 	@Override

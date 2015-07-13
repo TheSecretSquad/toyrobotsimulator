@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface ReportActionable {
+public interface ReportAction {
 
 	void report();
 }
