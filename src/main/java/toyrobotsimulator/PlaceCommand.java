@@ -12,7 +12,6 @@ public class PlaceCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		placeAction.place(new Position(1, 2), new Direction("NORTH"));
 	}
 }
