@@ -1,36 +1,29 @@
 package toyrobotsimulator;
 
-public class Direction {
-
-	private String direction;
+public enum Direction {
+	NORTH("NORTH"),
+	SOUTH("SOUTH"),
+	EAST("EAST"),
+	WEST("WEST");
 	
-	public Direction(final String direction) {
-		this.direction = direction.toUpperCase();
+	private final String stringValue;
+	
+	private Direction(final String stringValue) {
+		this.stringValue = stringValue;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((direction == null) ? 0 : direction.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Direction other = (Direction) obj;
-		if (direction == null) {
-			if (other.direction != null)
-				return false;
-		} else if (!direction.equals(other.direction))
-			return false;
-		return true;
+	
+	public static Direction createFrom(final String stringValue) {
+		switch(stringValue.toUpperCase()) {
+		case "NORTH":
+			return NORTH;
+		case "SOUTH":
+			return SOUTH;
+		case "EAST":
+			return EAST;
+		case "WEST":
+			return WEST;
+		default:
+			throw new InvalidDirectionException();
+		}
 	}
 }

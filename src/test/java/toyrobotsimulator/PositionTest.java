@@ -12,8 +12,13 @@ public class PositionTest {
 	}
 
 	@Test
-	public void AreValueEqual() {
+	public void WhenComparingEqual_IsValueEqual() {
 		assertEquals(new Position(1, 1), new Position(1, 1));
 		assertEquals(new Position(1, 2), new Position(1, 2));
+	}
+	
+	@Test(expected=PositionInitializationException.class)
+	public void WhenCreatingFromStrings_ThrowsExceptionOnNonIntegerParsableValue() {
+		new Position("a", "b");
 	}
 }

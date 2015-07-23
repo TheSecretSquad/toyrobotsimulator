@@ -9,6 +9,16 @@ public class Position {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public Position(final String x, final String y) {
+		try {
+			this.x = Integer.parseInt(x);
+			this.y = Integer.parseInt(y);
+		}
+		catch(final NumberFormatException numberFormatException) {
+			throw new PositionInitializationException();
+		}
+	}
 
 	@Override
 	public int hashCode() {

@@ -33,6 +33,12 @@ public class PlaceCommandTest {
 	public void WhenExecutingCommand_WithCorrectParameters_ShouldCallPlaceWithPositionAndDirection() {
 		setupPlaceCommandWith(commandParameters("1", "2", "NORTH"));
 		placeCommand.execute();
-		verify(placeAction).place(eq(new Position(1, 2)), eq(new Direction("NORTH")));
+		verify(placeAction).place(eq(new Position(1, 2)), eq(Direction.NORTH));
+	}
+	
+	@Test(expected=CommandParametersCountException.class)
+	public void WhenExecutingCommand_WithWrongNumberOfParameters_ShouldThrowException() {
+		setupPlaceCommandWith(commandParameters("1", "2"));
+		placeCommand.execute();
 	}
 }
