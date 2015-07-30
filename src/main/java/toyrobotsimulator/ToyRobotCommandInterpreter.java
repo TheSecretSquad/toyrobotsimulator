@@ -1,7 +1,5 @@
 package toyrobotsimulator;
 
-import java.util.function.Consumer;
-
 public class ToyRobotCommandInterpreter implements CommandInterpreter, CommandReceiver {
 
 	private final InterpretedCommandReceiver interpretedCommandReceiver;

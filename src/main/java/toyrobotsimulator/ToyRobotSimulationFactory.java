@@ -13,9 +13,9 @@ public class ToyRobotSimulationFactory implements SimulationFactory {
 		@Override
 		public void move() {}
 		@Override
-		public void left() {}
+		public void turnLeft() {}
 		@Override
-		public void right() {}
+		public void turnRight() {}
 		@Override
 		public void report() {}
 		@Override

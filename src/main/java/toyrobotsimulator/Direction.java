@@ -1,16 +1,10 @@
 package toyrobotsimulator;
 
 public enum Direction {
-	NORTH("NORTH"),
-	SOUTH("SOUTH"),
-	EAST("EAST"),
-	WEST("WEST");
-	
-	private final String stringValue;
-	
-	private Direction(final String stringValue) {
-		this.stringValue = stringValue;
-	}
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST;
 	
 	public static Direction createFrom(final String stringValue) {
 		switch(stringValue.toUpperCase()) {

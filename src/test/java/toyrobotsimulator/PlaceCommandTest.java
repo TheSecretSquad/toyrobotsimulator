@@ -30,7 +30,7 @@ public class PlaceCommandTest {
 	}
 	
 	@Test
-	public void WhenExecutingCommand_WithCorrectParameters_ShouldCallPlaceWithPositionAndDirection() {
+	public void WhenExecutingCommand_WithCorrectParameters_ShouldPlaceWithPositionAndDirection() {
 		setupPlaceCommandWith(commandParameters("1", "2", "NORTH"));
 		placeCommand.execute();
 		verify(placeAction).place(eq(new Position(1, 2)), eq(Direction.NORTH));
