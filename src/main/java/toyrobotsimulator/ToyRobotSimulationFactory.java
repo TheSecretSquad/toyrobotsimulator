@@ -4,25 +4,22 @@ import java.util.Scanner;
 
 public class ToyRobotSimulationFactory implements SimulationFactory {
 
-	private static InterpretedCommandReceiver interpretedCommandReceiver = new InterpretedCommandReceiver() {
-			@Override
-			public void issueCommand(Command command) {	System.out.println(command); }
-		};
+	private static ToyRobot toyRobot = new RealToyRobot(new Environment() {
+
+		@Override
+		public void placeAt(final Position position) {
+			System.out.println("Positioned at: " + position);
+			
+		}
+
+		@Override
+		public void moveIn(final Direction direction) {
+			System.out.println("Moving in direction: " + direction);
+			
+		}
+	});
 		
-	private static ToyRobot toyRobot = new ToyRobot() {
-		@Override
-		public void move() {}
-		@Override
-		public void turnLeft() {}
-		@Override
-		public void turnRight() {}
-		@Override
-		public void report() {}
-		@Override
-		public void place(Position position, Direction direction) {}
-	};
-		
-	private static CommandInterpreter commandInterpreter = new ToyRobotCommandInterpreter(interpretedCommandReceiver, toyRobot);
+	private static CommandInterpreter commandInterpreter = new ToyRobotCommandInterpreter(toyRobot, toyRobot);
 	
 	private static CommandSource commandSource = new ConsoleCommandSource(new TestConsole(), new ToyRobotInputParser(new ToyRobotInputCommandParser()));
 	

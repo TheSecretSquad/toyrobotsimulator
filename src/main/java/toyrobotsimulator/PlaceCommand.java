@@ -55,7 +55,7 @@ public class PlaceCommand implements Command {
 	}
 	
 	private Direction directionFrom(final List<String> extractedParameters) {
-		return Direction.createFrom(extractedParameters.get(directionIndex));
+		return CardinalDirection.createFrom(extractedParameters.get(directionIndex));
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package toyrobotsimulator;
 
-import static org.junit.Assert.*;
-
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 

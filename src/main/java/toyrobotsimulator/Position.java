@@ -19,6 +19,10 @@ public class Position {
 			throw new PositionInitializationException();
 		}
 	}
+	
+	public String toString() {
+		return "(" + x + "," + y + ")";
+	}
 
 	@Override
 	public int hashCode() {

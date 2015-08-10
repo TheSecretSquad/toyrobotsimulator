@@ -1,6 +1,5 @@
 package toyrobotsimulator;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;

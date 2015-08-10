@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.io.PrintStream;
 

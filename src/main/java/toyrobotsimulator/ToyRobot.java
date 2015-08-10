@@ -1,5 +1,5 @@
 package toyrobotsimulator;
 
-public interface ToyRobot extends MoveAction, LeftAction, RightAction, ReportAction, PlaceAction {
+public interface ToyRobot extends InterpretedCommandReceiver, MoveAction, LeftAction, RightAction, ReportAction, PlaceAction {
 
 }
