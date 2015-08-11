@@ -10,11 +10,11 @@ public class ToyRobotInputCommandParser implements InputCommandParser {
 	@Override
 	public void parseCommandTextTo(final String commandText, final CommandReceiver commandReceiver) {
 		if(!commandText.isEmpty())
-			sendExtractedNameAndParametersTo(commandText, commandReceiver);
+			tokenizeCommandTextTo(commandText, commandReceiver);
 	}
 	
-	private void sendExtractedNameAndParametersTo(final String commandName, final CommandReceiver commandReceiver) {
-		sendCommandTokensTo(commandName.split(commandPartSeparator), commandReceiver);
+	private void tokenizeCommandTextTo(final String commandText, final CommandReceiver commandReceiver) {
+		sendCommandTokensTo(commandText.split(commandPartSeparator), commandReceiver);
 	}
 	
 	private void sendCommandTokensTo(final String[] commandTokens, final CommandReceiver commandReceiver) {
