@@ -1,8 +1,8 @@
 package toyrobotsimulator;
 
-public interface Environment {
+public interface Environment extends Reportable, Edge {
 
-	void placeAt(final Position position);
+	void placeAtPositionWith(final Position position, final EdgeDetector edgeDetector);
 
-	void moveIn(final Direction direction);
+	void moveInDirectionWith(final Direction direction, final EdgeDetector edgeDetector);
 }

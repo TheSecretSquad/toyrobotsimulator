@@ -2,5 +2,7 @@ package toyrobotsimulator;
 
 public interface ReportStream {
 
-	void report(final Position position, final Direction direction);
+	void report(final Position position);
+	
+	void report(final Direction direction);
 }

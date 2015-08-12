@@ -20,6 +20,23 @@ public class Position {
 		}
 	}
 	
+	public boolean isBetween(final Position position1, final Position position2) {
+		return isHorizontallyBetween(position1, position2) &&
+				isVerticallyBetween(position1, position2);
+	}
+	
+	private boolean isHorizontallyBetween(final Position position1, final Position position2) {
+		int minX = Math.min(position1.x, position2.x);
+		int maxX = Math.max(position1.x, position2.x);
+		return minX <= x && x <= maxX;
+	}
+	
+	private boolean isVerticallyBetween(final Position position1, final Position position2) {
+		int minY = Math.min(position1.y, position2.y);
+		int maxY = Math.max(position1.y, position2.y);
+		return minY <= y && y <= maxY;
+	}
+	
 	public String toString() {
 		return "(" + x + "," + y + ")";
 	}

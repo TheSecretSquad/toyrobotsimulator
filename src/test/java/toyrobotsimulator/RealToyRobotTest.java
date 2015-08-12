@@ -1,5 +1,6 @@
 package toyrobotsimulator;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -23,7 +25,10 @@ public class RealToyRobotTest {
 	@Mock
 	private Environment environment;
 	@Mock
+	private EdgeDetector edgeDetector;
+	@Mock
 	private ReportStream reportStream;
+
 	
 	// Robot needs to filter commands before
 	// they are reflected in the environment
@@ -31,7 +36,7 @@ public class RealToyRobotTest {
 	@Before
 	public void setUp() throws Exception {
 		startingPosition = new Position(1, 1);
-		realToyRobot = new RealToyRobot(environment);
+		realToyRobot = new RealToyRobot(environment, edgeDetector, reportStream);
 	}
 	
 	private <T> void verifyDiscardsActionWithMock(final Consumer<ToyRobot> toyRobotConsumer, final T mock) {
@@ -52,7 +57,7 @@ public class RealToyRobotTest {
 	}
 
 	private void verifyMoveInDirection(final Direction direction) {
-		verify(environment).moveIn(direction);
+		verify(environment).moveInDirectionWith(direction, edgeDetector);
 	}
 	
 	@Test
@@ -88,7 +93,7 @@ public class RealToyRobotTest {
 	@Test
 	public void WhenPlacing_ShouldPlaceAtPositionInEnvironment() {
 		placeAtStartingPositionAndDirection();
-		verify(environment).placeAt(startingPosition);
+		verify(environment).placeAtPositionWith(startingPosition, edgeDetector);
 	}
 	
 	@Test
@@ -118,5 +123,19 @@ public class RealToyRobotTest {
 		realToyRobot.turnLeft();
 		realToyRobot.move();
 		verifyMoveInDirection(startingDirection.counterClockwise());
+	}
+	
+	@Test
+	public void WhenReporting_IfPlaced_ShouldPrintFacingDirection() {
+		placeAtStartingPositionAndDirection();
+		realToyRobot.report();
+		verify(reportStream).report(startingDirection);
+	}
+	
+	@Test
+	public void WhenReporting_IfPlaced_ShouldReportEnvironment() {
+		placeAtStartingPositionAndDirection();
+		realToyRobot.report();
+		verify(environment).reportTo(reportStream);
 	}
 }

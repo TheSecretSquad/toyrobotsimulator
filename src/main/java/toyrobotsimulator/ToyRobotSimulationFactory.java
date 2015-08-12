@@ -4,18 +4,20 @@ import java.util.Scanner;
 
 public class ToyRobotSimulationFactory implements SimulationFactory {
 
-	private static ToyRobot toyRobot = new RealToyRobot(new Environment() {
-
+	private static ToyRobot toyRobot = new RealToyRobot(new TableTop(), new EdgeDetector() {
 		@Override
-		public void placeAt(final Position position) {
-			System.out.println("Positioned at: " + position);
-			
+		public void detect(Edge edge) {
+			// TODO Auto-generated method stub
+		}
+	}, new ReportStream() {
+		@Override
+		public void report(Position position) {
+			// TODO Auto-generated method stub
 		}
 
 		@Override
-		public void moveIn(final Direction direction) {
-			System.out.println("Moving in direction: " + direction);
-			
+		public void report(Direction direction) {
+			// TODO Auto-generated method stub
 		}
 	});
 		
