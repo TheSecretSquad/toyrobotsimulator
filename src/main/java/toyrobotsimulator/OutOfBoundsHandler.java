@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface Edge {
+public interface OutOfBoundsHandler {
 
 	void avoid();
 }

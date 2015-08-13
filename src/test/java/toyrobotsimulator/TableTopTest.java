@@ -16,25 +16,48 @@ public class TableTopTest {
 	private TableTop tableTop;
 	private Position validPosition;
 	private Position invalidPosition;
+	private Direction validDirection;
+	private Position validPositionInValidDirection;
+	
 	@Mock
-	private EdgeDetector edgeDetector;
+	private OutOfBoundsDetector outOfBoundsDetector;
+	@Mock
+	private PositionReportStream positionReportStream;
 	
 	@Before
 	public void setUp() throws Exception {
 		tableTop = new TableTop(5);
 		validPosition = new Position(1,1);
 		invalidPosition = new Position(0,0);
+		validDirection = CardinalDirection.NORTH;
+		validPositionInValidDirection = new Position(1,2);
 	}
 
 	@Test
-	public void WhenPlacingAtPosition_IfPositionIsValid_ShouldNotCallEdgeDetector() {
-		tableTop.placeAtPositionWith(validPosition, edgeDetector);
-		verify(edgeDetector, never()).detect(any(Edge.class));
+	public void WhenPlacingAtPosition_IfPositionIsValid_ShouldNotDetectOutOfBounds() {
+		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
+		verify(outOfBoundsDetector, never()).detect(any(OutOfBoundsHandler.class));
 	}
 	
 	@Test
-	public void WhenPlacingAtPosition_IfPositionIsInvalid_ShouldCallEdgeDetector() {
-		tableTop.placeAtPositionWith(invalidPosition, edgeDetector);
-		verify(edgeDetector).detect(tableTop);
+	public void WhenPlacingAtPosition_IfPositionIsInvalid_ShouldDetectOutOfBounds() {
+		tableTop.placeAtPositionWith(invalidPosition, outOfBoundsDetector);
+		verify(outOfBoundsDetector).detect(tableTop);
+	}
+	
+	@Test
+	public void WhenReporting_IfPlacedAtValidPosition_ShouldReportPlacedPosition() {
+		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
+		tableTop.reportTo(positionReportStream);
+		verify(positionReportStream).report(validPosition);
+	}
+	
+	@Test
+	public void WhenReporting_IfPlacedAtValidPositionAndMovedInValidDirection_ShouldReportPositionMovedOnceInDirection() {
+		// A valid direction is one that does not cause out of bounds
+		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
+		tableTop.moveInDirectionWith(validDirection, outOfBoundsDetector);
+		tableTop.reportTo(positionReportStream);
+		verify(positionReportStream).report(validPositionInValidDirection);
 	}
 }

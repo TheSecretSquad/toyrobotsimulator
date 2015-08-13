@@ -2,10 +2,18 @@ package toyrobotsimulator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PositionTest {
 
 	private Position lowerBound;
@@ -16,6 +24,10 @@ public class PositionTest {
 	private Position upperOutOfBoundsY;
 	private Position lowOutOfBoundsXY;
 	private Position upperOutOfBoundsXY;
+	private Position translatingPositionStart;
+	private Position directionMoveFromTestPosition;
+	@Mock
+	private Direction direction;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -27,6 +39,9 @@ public class PositionTest {
 		upperOutOfBoundsY = new Position(3,4);
 		lowOutOfBoundsXY = new Position(0,0);
 		upperOutOfBoundsXY = new Position(4,4);
+		translatingPositionStart = new Position(1,1);
+		directionMoveFromTestPosition = new Position(9,9);
+		when(direction.moveFrom(any(Position.class))).thenReturn(directionMoveFromTestPosition);
 	}
 
 	private void assertIsBetweenIsFalseWithBoundsCommutativity(final Position position) {
@@ -78,5 +93,17 @@ public class PositionTest {
 	@Test
 	public void WhenHorizontallyBetween_IfUpperOutOfBoundsXY_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsXY);
+	}
+	
+	@Test
+	public void WhenTranslating_ShouldMovePositionInDirection() {
+		translatingPositionStart.translateIn(direction);
+		verify(direction).moveFrom(translatingPositionStart);
+	}
+	
+	@Test
+	public void WhenTranslating_ShouldReturnPositionFromMovingInDirection() {
+		Position translatedPosition = translatingPositionStart.translateIn(direction);
+		assertEquals(directionMoveFromTestPosition, translatedPosition);
 	}
 }

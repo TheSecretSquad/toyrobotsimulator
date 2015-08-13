@@ -3,14 +3,14 @@ package toyrobotsimulator;
 public class RealToyRobot implements ToyRobot {
 
 	private final Environment environment;
-	private final EdgeDetector edgeDetector;
+	private final OutOfBoundsDetector outOfBoundsDetector;
 	private boolean isActive;
 	private Direction facingDirection;
 	private final ReportStream reportStream;
 
-	public RealToyRobot(final Environment environment, final EdgeDetector edgeDetector, final ReportStream reportStream) {
+	public RealToyRobot(final Environment environment, final OutOfBoundsDetector outOfBoundsDetector, final ReportStream reportStream) {
 		this.environment = environment;
-		this.edgeDetector = edgeDetector;
+		this.outOfBoundsDetector = outOfBoundsDetector;
 		this.isActive = false;
 		this.facingDirection = null;
 		this.reportStream = reportStream;
@@ -18,7 +18,7 @@ public class RealToyRobot implements ToyRobot {
 	
 	@Override
 	public void move() {
-		ifActiveDo(() -> environment.moveInDirectionWith(facingDirection, edgeDetector));
+		ifActiveDo(() -> environment.moveInDirectionWith(facingDirection, outOfBoundsDetector));
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class RealToyRobot implements ToyRobot {
 
 	@Override
 	public void place(final Position position, final Direction facingDirection) {
-		environment.placeAtPositionWith(position, edgeDetector);
+		environment.placeAtPositionWith(position, outOfBoundsDetector);
 		isActive = true;
 		this.facingDirection = facingDirection;
 	}

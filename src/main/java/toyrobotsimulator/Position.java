@@ -65,4 +65,8 @@ public class Position {
 			return false;
 		return true;
 	}
+
+	public Position translateIn(final Direction direction) {
+		return direction.moveFrom(this);
+	}
 }

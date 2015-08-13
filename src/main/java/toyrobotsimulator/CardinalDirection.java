@@ -62,4 +62,10 @@ public enum CardinalDirection implements Direction {
 		
 		return counterClockwise;
 	}
+
+	@Override
+	public Position moveFrom(final Position position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
