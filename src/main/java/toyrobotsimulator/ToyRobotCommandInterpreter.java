@@ -40,11 +40,11 @@ public class ToyRobotCommandInterpreter implements CommandInterpreter, CommandRe
 		
 		if(commandName.equals(moveCommandName))
 			return new MoveCommand(toyRobot);
-		else if(commandName.equals(leftCommandName))
+		if(commandName.equals(leftCommandName))
 			return new LeftCommand(toyRobot);
-		else if(commandName.equals(rightCommandName))
+		if(commandName.equals(rightCommandName))
 			return new RightCommand(toyRobot);
-		else if(commandName.equals(reportCommandName))
+		if(commandName.equals(reportCommandName))
 			return new ReportCommand(toyRobot);
 		
 		return unknownCommand();
@@ -57,8 +57,8 @@ public class ToyRobotCommandInterpreter implements CommandInterpreter, CommandRe
 		return unknownCommand();
 	}
 
-	private UnknownCommand unknownCommand() {
-		return new UnknownCommand();
+	private Command unknownCommand() {
+		throw new UnknownCommandException();
 	}
 
 	@Override

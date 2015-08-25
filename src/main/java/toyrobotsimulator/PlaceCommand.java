@@ -27,6 +27,14 @@ public class PlaceCommand implements Command {
 		this.positionYValueIndex = 1;
 		this.directionIndex = 2;
 	}
+
+	@Override
+	public void execute() {
+		final List<String> extractedParameters = new ArrayList<>(3);
+		extractParametersTo(extractedParameters);
+		verifyParameterCount(extractedParameters);
+		placeAction.place(positionFrom(extractedParameters), directionFrom(extractedParameters));
+	}
 	
 	private void extractParametersTo(final List<String> parameters) {
 		commandParameters.listTo(new CommandParameterReceiver() {
@@ -56,13 +64,5 @@ public class PlaceCommand implements Command {
 	
 	private Direction directionFrom(final List<String> extractedParameters) {
 		return CardinalDirection.createFrom(extractedParameters.get(directionIndex));
-	}
-
-	@Override
-	public void execute() {
-		final List<String> extractedParameters = new ArrayList<>(3);
-		extractParametersTo(extractedParameters);
-		verifyParameterCount(extractedParameters);
-		placeAction.place(positionFrom(extractedParameters), directionFrom(extractedParameters));
 	}
 }

@@ -26,6 +26,7 @@ public class ToyRobotCommandInterpreterTest {
 	private final CommandName rightCommandName = new CommandName("RIGHT");
 	private final CommandName reportCommandName = new CommandName("REPORT");
 	private final CommandName placeCommandName = new CommandName("PLACE");
+	private final CommandName unknownCommandName = new CommandName("ThisRepresentsAnUnknownCommand");
 	
 	@Before
 	public void setUp() throws Exception {
@@ -66,5 +67,10 @@ public class ToyRobotCommandInterpreterTest {
 	public void WhenSentPlaceCommandName_SendsPlaceCommandToInterpetedCommandReceiver() {
 		toyRobotCommandInterpreter.sendCommandNameWithParameters(placeCommandName, commandParameters);
 		verify(interpretedCommandReceiver).issueCommand(isA(PlaceCommand.class));
+	}
+	
+	@Test(expected=UnknownCommandException.class)
+	public void WhenSentUnknownCommand_ThrowsUnknownCommandException() {
+		toyRobotCommandInterpreter.sendCommandName(unknownCommandName);
 	}
 }

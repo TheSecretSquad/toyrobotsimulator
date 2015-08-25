@@ -26,8 +26,7 @@ public class TableTop implements Environment {
 	
 	@Override
 	public void moveInDirectionWith(final Direction direction, final OutOfBoundsDetector outOfBoundsDetector) {
-		Position newPosition = occupiedPosition.translateIn(direction);
-		
+		occupiedPosition = occupiedPosition.translateIn(direction);
 	}
 
 	@Override

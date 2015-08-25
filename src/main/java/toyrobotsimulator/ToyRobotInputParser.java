@@ -13,6 +13,9 @@ public class ToyRobotInputParser implements InputParser {
 
 	@Override
 	public void parseTextTo(final String text, final CommandReceiver commandReceiver) {
+		if(text.isEmpty())
+			return;
+		
 		parseAsCommandsTo(text, commandReceiver);
 	}
 	
@@ -25,6 +28,6 @@ public class ToyRobotInputParser implements InputParser {
 	}
 	
 	private void parseCommandTokensTo(final Stream<String> tokens, final CommandReceiver commandReceiver) {
-		tokens.forEach((String commandText) -> inputCommandParser.parseCommandTextTo(commandText, commandReceiver));
+		tokens.forEach((String commandText) -> inputCommandParser.parseTextTo(commandText, commandReceiver));
 	}
 }

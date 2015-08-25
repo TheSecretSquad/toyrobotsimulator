@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 
@@ -21,10 +21,13 @@ public class ToyRobotInputParserTest {
 	private CommandReceiver commandReceiver;
 	private final String lineSeparator = System.lineSeparator();
 	
-	private String createSampleCommandsInput(String ... commands) {
-		if(commands.length == 0)
-			return "";
-		return Arrays.stream(commands).reduce((s, t) -> s + lineSeparator + t).get();
+	private String createSampleCommandsText(String ... commands) {
+		return commands.length == 0 ? "" : 
+			Arrays.stream(commands).reduce((s, t) -> s + lineSeparator + t).get();
+	}
+	
+	private String createEmptyCommandText() {
+		return createSampleCommandsText();
 	}
 	
 	@Before
@@ -33,14 +36,20 @@ public class ToyRobotInputParserTest {
 	}
 
 	@Test
-	public void WhenSentInput_ParsesCommandsInOrderByNewLineDelimiter() {
-		String someCommand = "some command";
-		String otherCommand = "other command";
-		String anotherCommand = "another command";
-		toyRobotInputParser.parseTextTo(createSampleCommandsInput(someCommand, otherCommand, anotherCommand), commandReceiver);
+	public void WhenSentText_ParsesCommandTextInOrderByNewLineDelimiter() {
+		String someText = "some command";
+		String otherText = "other command";
+		String moreText = "another command";
+		toyRobotInputParser.parseTextTo(createSampleCommandsText(someText, otherText, moreText), commandReceiver);
 		InOrder inOrder = inOrder(inputCommandParser);
-		inOrder.verify(inputCommandParser).parseCommandTextTo(someCommand, commandReceiver);
-		inOrder.verify(inputCommandParser).parseCommandTextTo(otherCommand, commandReceiver);
-		inOrder.verify(inputCommandParser).parseCommandTextTo(anotherCommand, commandReceiver);
+		inOrder.verify(inputCommandParser).parseTextTo(someText, commandReceiver);
+		inOrder.verify(inputCommandParser).parseTextTo(otherText, commandReceiver);
+		inOrder.verify(inputCommandParser).parseTextTo(moreText, commandReceiver);
+	}
+	
+	@Test
+	public void WhenSentEmptyText_DoesNothing() {
+		toyRobotInputParser.parseTextTo(createEmptyCommandText(), commandReceiver);
+		verifyZeroInteractions(inputCommandParser);
 	}
 }

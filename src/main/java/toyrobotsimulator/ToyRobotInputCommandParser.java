@@ -8,7 +8,7 @@ public class ToyRobotInputCommandParser implements InputCommandParser {
 	private final int commandParametersIndex = 1;
 		
 	@Override
-	public void parseCommandTextTo(final String commandText, final CommandReceiver commandReceiver) {
+	public void parseTextTo(final String commandText, final CommandReceiver commandReceiver) {
 		if(!commandText.isEmpty())
 			tokenizeCommandTextTo(commandText, commandReceiver);
 	}

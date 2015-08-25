@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public class DirectionTest {
+public class CardinalDirectionTest {
 
 	@Test(expected=InvalidDirectionException.class)
 	public void WhenCreating_WithInvalidDirectionString_ThrowsException() {
