@@ -55,6 +55,7 @@ public class TableTopTest {
 	@Test
 	public void WhenReporting_IfPlacedAtValidPositionAndMovedInValidDirection_ShouldReportPositionMovedOnceInDirection() {
 		// A valid direction is one that does not cause out of bounds
+		// Test is failing because need to continue working out cardinal direction
 		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
 		tableTop.moveInDirectionWith(validDirection, outOfBoundsDetector);
 		tableTop.reportTo(positionReportStream);
