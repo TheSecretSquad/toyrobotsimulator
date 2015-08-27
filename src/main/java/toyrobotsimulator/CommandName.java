@@ -5,7 +5,10 @@ public class CommandName {
 	private final String commandName;
 	
 	public CommandName(final String commandName) {
-		this.commandName = commandName.toUpperCase();
+		if(commandName == null)
+			this.commandName = "";
+		else
+			this.commandName = commandName.toUpperCase();
 	}
 
 	@Override

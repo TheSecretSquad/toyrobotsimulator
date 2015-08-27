@@ -3,6 +3,7 @@ package toyrobotsimulator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,6 +27,8 @@ public class PositionTest {
 	private Position upperOutOfBoundsXY;
 	private Position translatingPositionStart;
 	private Position directionMoveFromTestPosition;
+	private Position equalsInstance;
+	private Position equalsOtherInstance;
 	@Mock
 	private Direction direction;
 	
@@ -41,6 +44,8 @@ public class PositionTest {
 		upperOutOfBoundsXY = new Position(4,4);
 		translatingPositionStart = new Position(1,1);
 		directionMoveFromTestPosition = new Position(9,9);
+		equalsInstance = new Position(1,1);
+		equalsOtherInstance = new Position(1,1);
 		when(direction.moveFrom(any(Position.class))).thenReturn(directionMoveFromTestPosition);
 	}
 
@@ -53,6 +58,37 @@ public class PositionTest {
 	public void WhenComparingEqual_IsValueEqual() {
 		assertEquals(new Position(1, 1), new Position(1, 1));
 		assertEquals(new Position(1, 2), new Position(1, 2));
+	}
+	
+	@Test
+	public void WhenComparingEqual_AndDifferentXPositions_IsNotEqual() {
+		assertNotEquals(new Position(1, 1), new Position(2, 1));
+	}
+	
+	@Test
+	public void WhenComparingEqual_AndDifferentYPositions_IsNotEqual() {
+		assertNotEquals(new Position(1, 1), new Position(1, 2));
+	}
+	
+	@Test
+	public void WhenComparingEqual_AndSameObject_IsEqual() {
+		assertEquals(equalsInstance, equalsInstance);
+	}
+	
+	@Test
+	public void WhenComparingEqual_AndNull_IsNotEqual() {
+		assertNotEquals(equalsInstance, null);
+	}
+	
+	@Test
+	public void WhenComparingEqual_AndOtherType_IsNotEqual() {
+		assertNotEquals(equalsInstance, new Object());
+	}
+	
+	@Test
+	public void WhenComparingEqual_IsSymmetric() {
+		assertTrue(equalsInstance.equals(equalsOtherInstance));
+		assertTrue(equalsOtherInstance.equals(equalsInstance));
 	}
 	
 	@Test(expected=PositionInitializationException.class)
