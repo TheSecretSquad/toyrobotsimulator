@@ -1,6 +1,7 @@
 package toyrobotsimulator;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.Arrays;
 
