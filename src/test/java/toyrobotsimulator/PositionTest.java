@@ -26,11 +26,15 @@ public class PositionTest {
 	private Position lowOutOfBoundsXY;
 	private Position upperOutOfBoundsXY;
 	private Position translatingPositionStart;
-	private Position directionMoveFromTestPosition;
+	private Position translatingByPosition;
+	private Position translatedPosition;
 	private Position equalsInstance;
 	private Position equalsOtherInstance;
+
 	@Mock
 	private Direction direction;
+	@Mock
+	private Directable directable;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -43,10 +47,10 @@ public class PositionTest {
 		lowOutOfBoundsXY = new Position(0,0);
 		upperOutOfBoundsXY = new Position(4,4);
 		translatingPositionStart = new Position(1,1);
-		directionMoveFromTestPosition = new Position(9,9);
+		translatingByPosition = new Position(2,2);
+		translatedPosition = new Position(3,3);
 		equalsInstance = new Position(1,1);
 		equalsOtherInstance = new Position(1,1);
-		when(direction.moveFrom(any(Position.class))).thenReturn(directionMoveFromTestPosition);
 	}
 
 	private void assertIsBetweenIsFalseWithBoundsCommutativity(final Position position) {
@@ -102,44 +106,38 @@ public class PositionTest {
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfLowOutOfBoundsX_ShouldBeFalse() {
+	public void WhenIsBetween_IfLowOutOfBoundsX_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsX);
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfLowOutOfBoundsY_ShouldBeFalse() {
+	public void WhenIsBetween_IfLowOutOfBoundsY_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsY);
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfUpperOutOfBoundsX_ShouldBeFalse() {
+	public void WhenIsBetween_IfUpperOutOfBoundsX_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsX);
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfUpperOutOfBoundsY_ShouldBeFalse() {
+	public void WhenIsBetween_IfUpperOutOfBoundsY_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsY);
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfLowOutOfBoundsXY_ShouldBeFalse() {
+	public void WhenIsBetween_IfLowOutOfBoundsXY_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsXY);
 	}
 	
 	@Test
-	public void WhenHorizontallyBetween_IfUpperOutOfBoundsXY_ShouldBeFalse() {
+	public void WhenIsBetween_IfUpperOutOfBoundsXY_ShouldBeFalse() {
 		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsXY);
 	}
 	
 	@Test
-	public void WhenTranslating_ShouldMovePositionInDirection() {
-		translatingPositionStart.translateIn(direction);
-		verify(direction).moveFrom(translatingPositionStart);
-	}
-	
-	@Test
-	public void WhenTranslating_ShouldReturnPositionFromMovingInDirection() {
-		Position translatedPosition = translatingPositionStart.translateIn(direction);
-		assertEquals(directionMoveFromTestPosition, translatedPosition);
+	public void WhenTranslatingByPosition_ShouldDirectToTranslatedPosition() {
+		translatingPositionStart.translateByPositionTo(translatingByPosition, directable);
+		verify(directable).directTo(translatedPosition);
 	}
 }

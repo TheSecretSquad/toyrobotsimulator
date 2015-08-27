@@ -64,8 +64,20 @@ public enum CardinalDirection implements Direction {
 	}
 
 	@Override
-	public Position moveFrom(final Position position) {
-		// TODO Auto-generated method stub
-		return null;
+	public void directDirectableFrom(final Directable directable, final Coordinate fromCoordinate) {
+		switch(this) {
+		case NORTH:
+			fromCoordinate.translateByPositionTo(new Position(0, 1), directable);
+			break;
+		case SOUTH:
+			fromCoordinate.translateByPositionTo(new Position(0, -1), directable);
+			break;
+		case EAST:
+			fromCoordinate.translateByPositionTo(new Position(1, 0), directable);
+			break;
+		case WEST:
+			fromCoordinate.translateByPositionTo(new Position(-1, 0), directable);
+			break;
+		}	
 	}
 }

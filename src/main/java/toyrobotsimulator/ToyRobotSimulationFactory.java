@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class ToyRobotSimulationFactory implements SimulationFactory {
 
-	private static ToyRobot toyRobot = new RealToyRobot(new TableTop(0), new OutOfBoundsDetector() {
+	private static ToyRobot toyRobot = new RealToyRobot(new TableTop(0), new EnvironmentObject() {
 		@Override
-		public void detect(OutOfBoundsHandler outOfBoundsHandler) {
+		public void handleBoundaryWith(OutOfBoundsDecision outOfBoundsDecision) {
 			// TODO Auto-generated method stub
 		}
 	}, new ReportStream() {

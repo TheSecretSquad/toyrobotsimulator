@@ -2,5 +2,5 @@ package toyrobotsimulator;
 
 public interface OutOfBoundsHandler {
 
-	void avoid();
+	void handleBoundaryWith(final OutOfBoundsDecision outOfBoundsDecision);
 }

@@ -2,11 +2,22 @@ package toyrobotsimulator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CardinalDirectionTest {
 
+	@Mock
+	private Directable directable;
+	@Mock
+	private Coordinate fromCoordinate;
+	
 	@Test(expected=InvalidDirectionException.class)
 	public void WhenCreating_WithInvalidDirectionString_ThrowsException() {
 		CardinalDirection.createFrom("invalid");
@@ -40,5 +51,17 @@ public class CardinalDirectionTest {
 		assertEquals(CardinalDirection.SOUTH, CardinalDirection.EAST.clockwise());
 		assertEquals(CardinalDirection.WEST, CardinalDirection.SOUTH.clockwise());
 		assertEquals(CardinalDirection.NORTH, CardinalDirection.WEST.clockwise());
+	}
+	
+	@Test
+	public void WhenDirecting_TranslatesByCorrectPosition() {
+		CardinalDirection.NORTH.directDirectableFrom(directable, fromCoordinate);
+		verify(fromCoordinate).translateByPositionTo(new Position(0, 1), directable);
+		CardinalDirection.SOUTH.directDirectableFrom(directable, fromCoordinate);
+		verify(fromCoordinate).translateByPositionTo(new Position(0, -1), directable);
+		CardinalDirection.EAST.directDirectableFrom(directable, fromCoordinate);
+		verify(fromCoordinate).translateByPositionTo(new Position(1, 0), directable);
+		CardinalDirection.WEST.directDirectableFrom(directable, fromCoordinate);
+		verify(fromCoordinate).translateByPositionTo(new Position(-1, 0), directable);
 	}
 }

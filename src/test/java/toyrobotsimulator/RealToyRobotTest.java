@@ -23,7 +23,7 @@ public class RealToyRobotTest {
 	@Mock
 	private Environment environment;
 	@Mock
-	private OutOfBoundsDetector outOfBoundsDetector;
+	private EnvironmentObject environmentObject;
 	@Mock
 	private ReportStream reportStream;
 
@@ -34,7 +34,7 @@ public class RealToyRobotTest {
 	@Before
 	public void setUp() throws Exception {
 		startingPosition = new Position(1, 1);
-		realToyRobot = new RealToyRobot(environment, outOfBoundsDetector, reportStream);
+		realToyRobot = new RealToyRobot(environment, environmentObject, reportStream);
 	}
 	
 	private <T> void verifyDiscardsActionWithMock(final Consumer<ToyRobot> toyRobotConsumer, final T mock) {
@@ -55,7 +55,7 @@ public class RealToyRobotTest {
 	}
 
 	private void verifyMoveInDirection(final Direction direction) {
-		verify(environment).moveInDirectionWith(direction, outOfBoundsDetector);
+		verify(environment).moveInDirection(direction);
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class RealToyRobotTest {
 	@Test
 	public void WhenPlacing_ShouldPlaceAtPositionInEnvironment() {
 		placeAtStartingPositionAndDirection();
-		verify(environment).placeAtPositionWith(startingPosition, outOfBoundsDetector);
+		verify(environment).placeObjectAtPosition(environmentObject, startingPosition);
 	}
 	
 	@Test

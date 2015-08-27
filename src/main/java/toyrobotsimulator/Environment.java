@@ -1,8 +1,8 @@
 package toyrobotsimulator;
 
-public interface Environment extends ReportsPosition, OutOfBoundsHandler {
+public interface Environment extends ReportsPosition {
 
-	void placeAtPositionWith(final Position position, final OutOfBoundsDetector outOfBoundsDetector);
+	void placeObjectAtPosition(final EnvironmentObject environmentObject, final Position position);
 
-	void moveInDirectionWith(final Direction direction, final OutOfBoundsDetector outOfBoundsDetector);
+	void moveInDirection(final Direction direction);
 }

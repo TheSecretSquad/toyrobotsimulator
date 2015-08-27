@@ -5,6 +5,6 @@ public interface Direction {
 	Direction clockwise();
 	
 	Direction counterClockwise();
-
-	Position moveFrom(final Position position);
+	
+	void directDirectableFrom(final Directable directable, final Coordinate fromCoordinate);
 }

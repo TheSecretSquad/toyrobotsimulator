@@ -18,9 +18,10 @@ public class TableTopTest {
 	private Position invalidPosition;
 	private Direction validDirection;
 	private Position validPositionInValidDirection;
-	
 	@Mock
-	private OutOfBoundsDetector outOfBoundsDetector;
+	private Direction anyDirection;
+	@Mock
+	private EnvironmentObject environmentObject;
 	@Mock
 	private PositionReportStream positionReportStream;
 	
@@ -29,36 +30,51 @@ public class TableTopTest {
 		tableTop = new TableTop(5);
 		validPosition = new Position(1,1);
 		invalidPosition = new Position(0,0);
-		validDirection = CardinalDirection.NORTH;
+		validDirection = CardinalDirection.NORTH; // A valid direction is one that does not cause out of bounds
 		validPositionInValidDirection = new Position(1,2);
 	}
 
 	@Test
 	public void WhenPlacingAtPosition_IfPositionIsValid_ShouldNotDetectOutOfBounds() {
-		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
-		verify(outOfBoundsDetector, never()).detect(any(OutOfBoundsHandler.class));
+		tableTop.placeObjectAtPosition(environmentObject, validPosition);
+		verify(environmentObject, never()).handleBoundaryWith(any(OutOfBoundsDecision.class));
 	}
 	
 	@Test
 	public void WhenPlacingAtPosition_IfPositionIsInvalid_ShouldDetectOutOfBounds() {
-		tableTop.placeAtPositionWith(invalidPosition, outOfBoundsDetector);
-		verify(outOfBoundsDetector).detect(tableTop);
+		tableTop.placeObjectAtPosition(environmentObject, invalidPosition);
+		verify(environmentObject).handleBoundaryWith(tableTop);
 	}
 	
 	@Test
 	public void WhenReporting_IfPlacedAtValidPosition_ShouldReportPlacedPosition() {
-		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
+		tableTop.placeObjectAtPosition(environmentObject, validPosition);
 		tableTop.reportTo(positionReportStream);
 		verify(positionReportStream).report(validPosition);
 	}
 	
 	@Test
-	public void WhenReporting_IfPlacedAtValidPositionAndMovedInValidDirection_ShouldReportPositionMovedOnceInDirection() {
-		// A valid direction is one that does not cause out of bounds
-		// Test is failing because need to continue working out cardinal direction
-		tableTop.placeAtPositionWith(validPosition, outOfBoundsDetector);
-		tableTop.moveInDirectionWith(validDirection, outOfBoundsDetector);
+	public void WhenMovedInDirection_IfPlacedAtPosition_ShouldDirectFromPosition() {
+		tableTop.placeObjectAtPosition(environmentObject, validPosition);
+		tableTop.moveInDirection(anyDirection);
+		verify(anyDirection).directDirectableFrom(tableTop, validPosition);
+	}
+	
+	@Test
+	public void WhenReporting_AfterDirectedToValidPosition_ShouldReportNewPosition() {
+		tableTop.placeObjectAtPosition(environmentObject, validPosition);
+		tableTop.directTo(validPosition);
 		tableTop.reportTo(positionReportStream);
-		verify(positionReportStream).report(validPositionInValidDirection);
+		verify(positionReportStream).report(validPosition);
+	}
+	
+	@Test(expected=NothingPlacedException.class)
+	public void WhenDirectingToPosition_IfNoObjectPlaced_ShouldThrowException() {
+		tableTop.directTo(validPosition);
+	}
+	
+	@Test(expected=NothingPlacedException.class)
+	public void WhenPlacing_IfNullObjectPlaced_ShouldThrowException() {
+		tableTop.placeObjectAtPosition(null, validPosition);
 	}
 }

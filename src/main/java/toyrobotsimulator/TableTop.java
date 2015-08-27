@@ -1,14 +1,19 @@
 package toyrobotsimulator;
 
-public class TableTop implements Environment {
+import java.util.function.Consumer;
+
+public class TableTop implements Environment, OutOfBoundsDecision, Directable {
 
 	private final int dimension;
 	private final int dimensionLowBoundaryValue;
 	private Position occupiedPosition;
+	private EnvironmentObject environmentObject;
 	
 	public TableTop(int dimension) {
 		this.dimension = dimension;
 		this.dimensionLowBoundaryValue = 1;
+		this.occupiedPosition = null;
+		this.environmentObject = null;
 	}
 	
 	@Override
@@ -17,26 +22,42 @@ public class TableTop implements Environment {
 	}
 
 	@Override
-	public void placeAtPositionWith(final Position position, final OutOfBoundsDetector outOfBoundsDetector) {
-		if(isInBounds(position))
-			occupy(position);
-		else
-			detectOutOfBounds(outOfBoundsDetector);
+	public void placeObjectAtPosition(final EnvironmentObject environmentObject, final Position position) {
+		tryOccupyPositionUsingActionWithObject(position, () -> occupyPositionWith(position, environmentObject), environmentObject);
 	}
 	
 	@Override
-	public void moveInDirectionWith(final Direction direction, final OutOfBoundsDetector outOfBoundsDetector) {
-		occupiedPosition = occupiedPosition.translateIn(direction);
+	public void moveInDirection(final Direction direction) {
+		direction.directDirectableFrom(this, occupiedPosition);
 	}
 
+	@Override
+	public void directTo(final Position position) {
+		tryOccupyNewPosition(position);
+	}
+	
+	private void tryOccupyNewPosition(final Position position) {
+		tryOccupyPositionUsingActionWithObject(position, () -> occupyPosition(position), this.environmentObject);
+	}
+	
 	@Override
 	public void avoid() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	private boolean isInBounds(final Position position) {
-		return position.isBetween(lowBoundPosition(), upperBoundPosition());
+	private void tryOccupyPositionUsingActionWithObject(final Position position, final Runnable occupyPositionAction, final EnvironmentObject environmentObject) {
+		verifyPlacedObject(environmentObject);
+		
+		if(position.isBetween(lowBoundPosition(), upperBoundPosition()))
+			occupyPositionAction.run();
+		else
+			handleBoundary(environmentObject);
+	}
+	
+	private void verifyPlacedObject(final EnvironmentObject environmentObject) {
+		if(environmentObject == null)
+			throw new NothingPlacedException();
 	}
 	
 	private Position lowBoundPosition() {
@@ -47,11 +68,16 @@ public class TableTop implements Environment {
 		return new Position(dimension,dimension);
 	}
 
-	private void occupy(final Position position) {
+	private void occupyPositionWith(final Position position, final EnvironmentObject environmentObject) {
+		occupyPosition(position);
+		this.environmentObject = environmentObject;
+	}
+	
+	private void occupyPosition(final Position position) {
 		this.occupiedPosition = position;
 	}
 	
-	private void detectOutOfBounds(final OutOfBoundsDetector outOfBoundsDetector) {
-		outOfBoundsDetector.detect(this);
+	private void handleBoundary(final EnvironmentObject environmentObject) {
+		environmentObject.handleBoundaryWith(this);
 	}
 }

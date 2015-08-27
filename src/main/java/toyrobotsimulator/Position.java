@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public class Position {
+public class Position implements Coordinate {
 	
 	private final int x;
 	private final int y;
@@ -23,6 +23,14 @@ public class Position {
 	public boolean isBetween(final Position position1, final Position position2) {
 		return isHorizontallyBetween(position1, position2) &&
 				isVerticallyBetween(position1, position2);
+	}
+	
+	public void translateByPositionTo(final Coordinate coordinate, final Directable directable) {
+		coordinate.translateFromXYTo(this.x, this.y, directable);
+	}
+	
+	public void translateFromXYTo(final int x, final int y, final Directable directable) {
+		directable.directTo(new Position(this.x + x, this.x + y));
 	}
 	
 	private boolean isHorizontallyBetween(final Position position1, final Position position2) {
@@ -64,9 +72,5 @@ public class Position {
 		if (y != other.y)
 			return false;
 		return true;
-	}
-
-	public Position translateIn(final Direction direction) {
-		return direction.moveFrom(this);
 	}
 }
