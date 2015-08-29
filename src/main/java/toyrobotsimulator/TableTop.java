@@ -1,7 +1,5 @@
 package toyrobotsimulator;
 
-import java.util.function.Consumer;
-
 public class TableTop implements Environment, OutOfBoundsDecision, Directable {
 
 	private final int dimension;

@@ -16,8 +16,6 @@ public class TableTopTest {
 	private TableTop tableTop;
 	private Position validPosition;
 	private Position invalidPosition;
-	private Direction validDirection;
-	private Position validPositionInValidDirection;
 	@Mock
 	private Direction anyDirection;
 	@Mock
@@ -30,8 +28,6 @@ public class TableTopTest {
 		tableTop = new TableTop(5);
 		validPosition = new Position(1,1);
 		invalidPosition = new Position(0,0);
-		validDirection = CardinalDirection.NORTH; // A valid direction is one that does not cause out of bounds
-		validPositionInValidDirection = new Position(1,2);
 	}
 
 	@Test
