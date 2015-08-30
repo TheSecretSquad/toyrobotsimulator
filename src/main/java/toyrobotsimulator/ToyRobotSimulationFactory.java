@@ -4,20 +4,17 @@ import java.util.Scanner;
 
 public class ToyRobotSimulationFactory implements SimulationFactory {
 
-	private static ToyRobot toyRobot = new RealToyRobot(new TableTop(0), new EnvironmentObject() {
+	private static ToyRobot toyRobot = new RealToyRobot(new Environment() {
 		@Override
-		public void handleBoundaryWith(OutOfBoundsDecision outOfBoundsDecision) {
-			// TODO Auto-generated method stub
+		public void tryPlaceObjectAtPositionFacing(EnvironmentObject environmentObject, Position position, Direction facingDirection) {
 		}
-	}, new ReportStream() {
 		@Override
-		public void report(Position position) {
-			// TODO Auto-generated method stub
+		public void tryMoveObjectTo(EnvironmentObject environmentObject, Position position) {
 		}
-
+	},
+	new ReportStream() {
 		@Override
-		public void report(Direction direction) {
-			// TODO Auto-generated method stub
+		public void report(Position position, Direction direction) {
 		}
 	});
 		

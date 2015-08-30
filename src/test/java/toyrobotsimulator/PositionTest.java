@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -33,6 +34,8 @@ public class PositionTest {
 	private Direction direction;
 	@Mock
 	private Directable directable;
+	@Mock
+	private BetweenBoundsResult betweenBoundsResult;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -51,9 +54,11 @@ public class PositionTest {
 		equalsOtherInstance = new Position(1,1);
 	}
 
-	private void assertIsBetweenIsFalseWithBoundsCommutativity(final Position position) {
-		assertFalse(position.isBetween(lowerBound, upperBound));
-		assertFalse(position.isBetween(upperBound, lowerBound));
+	private void verifyIsNotBetweenWithBoundsCommutativity(final Position position) {
+		position.ifBetweenPoints(lowerBound, upperBound, betweenBoundsResult);
+		verify(betweenBoundsResult, never()).between();
+		position.ifBetweenPoints(upperBound, lowerBound, betweenBoundsResult);
+		verify(betweenBoundsResult, never()).between();
 	}
 	
 	@Test
@@ -105,37 +110,37 @@ public class PositionTest {
 	
 	@Test
 	public void WhenIsBetween_IfLowOutOfBoundsX_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsX);
+		verifyIsNotBetweenWithBoundsCommutativity(lowOutOfBoundsX);
 	}
 	
 	@Test
 	public void WhenIsBetween_IfLowOutOfBoundsY_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsY);
+		verifyIsNotBetweenWithBoundsCommutativity(lowOutOfBoundsY);
 	}
 	
 	@Test
 	public void WhenIsBetween_IfUpperOutOfBoundsX_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsX);
+		verifyIsNotBetweenWithBoundsCommutativity(upperOutOfBoundsX);
 	}
 	
 	@Test
 	public void WhenIsBetween_IfUpperOutOfBoundsY_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsY);
+		verifyIsNotBetweenWithBoundsCommutativity(upperOutOfBoundsY);
 	}
 	
 	@Test
 	public void WhenIsBetween_IfLowOutOfBoundsXY_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(lowOutOfBoundsXY);
+		verifyIsNotBetweenWithBoundsCommutativity(lowOutOfBoundsXY);
 	}
 	
 	@Test
 	public void WhenIsBetween_IfUpperOutOfBoundsXY_ShouldBeFalse() {
-		assertIsBetweenIsFalseWithBoundsCommutativity(upperOutOfBoundsXY);
+		verifyIsNotBetweenWithBoundsCommutativity(upperOutOfBoundsXY);
 	}
 	
 	@Test
 	public void WhenTranslatingByPosition_ShouldDirectToTranslatedPosition() {
-		translatingPositionStart.translateByPositionTo(translatingByPosition, directable);
+		translatingPositionStart.translateByCoordinateTo(translatingByPosition, directable);
 		verify(directable).directTo(translatedPosition);
 	}
 }

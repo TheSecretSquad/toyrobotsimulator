@@ -15,15 +15,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class RealToyRobotTest {
 
 	private RealToyRobot realToyRobot;
-	private Position startingPosition;
+	private Position aPosition;
+	private Position movedToPosition;
 	@Mock
 	private Command command;
 	@Mock
-	private Direction startingDirection;
+	private Direction aDirection;
+	@Mock
+	private Direction facedInDirection;
 	@Mock
 	private Environment environment;
-	@Mock
-	private EnvironmentObject environmentObject;
 	@Mock
 	private ReportStream reportStream;
 
@@ -33,8 +34,9 @@ public class RealToyRobotTest {
 	// Environment?
 	@Before
 	public void setUp() throws Exception {
-		startingPosition = new Position(1, 1);
-		realToyRobot = new RealToyRobot(environment, environmentObject, reportStream);
+		aPosition = new Position(1, 1);
+		movedToPosition = new Position(2, 2);
+		realToyRobot = new RealToyRobot(environment, reportStream);
 	}
 	
 	private <T> void verifyDiscardsActionWithMock(final Consumer<ToyRobot> toyRobotConsumer, final T mock) {
@@ -46,94 +48,101 @@ public class RealToyRobotTest {
 		verifyDiscardsActionWithMock(toyRobotConsumer, environment);
 	}
 	
-	private void verifyDiscardsActionWithReportStream(final Consumer<ToyRobot> toyRobotConsumer) {
-		verifyDiscardsActionWithMock(toyRobotConsumer, reportStream);
+	private void verifyDiscardsActionWithDirection(final Consumer<ToyRobot> toyRobotConsumer) {
+		verifyDiscardsActionWithMock(toyRobotConsumer, aDirection);
 	}
 	
-	private void placeAtStartingPositionAndDirection() {
-		realToyRobot.place(startingPosition, startingDirection);
+	private void issueCommand() {
+		realToyRobot.issueCommand(command);
 	}
-
-	private void verifyMoveInDirection(final Direction direction) {
-		verify(environment).moveInDirection(direction);
+	
+	private void placeActionAtPositionFacingADirection() {
+		realToyRobot.place(aPosition, aDirection);
+	}
+	
+	private void placeAtAPositionAndFacingADirection() {
+		realToyRobot.placeAtPositionFacing(aPosition, aDirection);
 	}
 	
 	@Test
-	public void WhenIssuedACommand_ShouldExecuteTheCommand() {
-		realToyRobot.issueCommand(command);
+	public void WhenIssuedCommand_ShouldExecuteCommand() {
+		issueCommand();
 		verify(command).execute();
 	}
 	
 	@Test
-	public void WhenMoving_IfNotYetPlaced_ShouldDiscardCommand() {
-		// No call to place()
-		verifyDiscardsActionWithEnvironment(toyRobot -> toyRobot.move());
+	public void WhenPlacing_ShouldTryToPlaceSelfAtPosition() {
+		placeActionAtPositionFacingADirection();
+		verify(environment).tryPlaceObjectAtPositionFacing(realToyRobot, aPosition, aDirection);
 	}
 	
 	@Test
-	public void WhenTurningLeft_IfNotYetPlaced_ShouldDiscardCommand() {
-		// No call to place()
-		verifyDiscardsActionWithEnvironment(toyRobot -> toyRobot.turnLeft());
-	}
-	
-	@Test
-	public void WhenTurningRight_IfNotYetPlaced_ShouldDiscardCommand() {
-		// No call to place()
-		verifyDiscardsActionWithEnvironment(toyRobot -> toyRobot.turnRight());
-	}
-	
-	@Test
-	public void WhenReporting_IfNotYetPlaced_ShouldDiscardCommand() {
-		// No call to place()
-		verifyDiscardsActionWithReportStream(toyRobot -> toyRobot.report());
-	}
-	
-	@Test
-	public void WhenPlacing_ShouldPlaceAtPositionInEnvironment() {
-		placeAtStartingPositionAndDirection();
-		verify(environment).placeObjectAtPosition(environmentObject, startingPosition);
-	}
-	
-	@Test
-	public void WhenMoving_IfPlaced_ShouldMoveInFacingDirection() {
-		placeAtStartingPositionAndDirection();
+	public void WhenMoving_IfPlaced_ShouldDirectToNewPosition() {
+		placeAtAPositionAndFacingADirection();
 		realToyRobot.move();
-		verifyMoveInDirection(startingDirection);
+		verify(aDirection).directDirectableFrom(realToyRobot, aPosition);
 	}
 	
 	@Test
-	public void WhenTurningRight_IfPlaced_ShouldTurnInClockwiseDirection() {
-		placeAtStartingPositionAndDirection();
+	public void WhenMoving_IfNotPlaced_ShouldDiscardAction() {
+		verifyDiscardsActionWithDirection((robot) -> robot.move());
+	}
+	
+	@Test
+	public void WhenDirectedToPosition_ShouldTryToMoveToPosition() {
+		realToyRobot.directTo(aPosition);
+		verify(environment).tryMoveObjectTo(realToyRobot, aPosition);
+	}
+	
+	@Test
+	public void WhenMoving_IfPlacedAndMovedToNewPosition_ShouldDirectFromMovedToPosition() {
+		placeAtAPositionAndFacingADirection();
+		realToyRobot.moveTo(movedToPosition);
+		realToyRobot.move();
+		verify(aDirection).directDirectableFrom(realToyRobot, movedToPosition);
+	}
+	
+	@Test
+	public void WhenMoving_IfPlacedAndFacedInDirection_ShouldDirectFromFacedDirection() {
+		placeAtAPositionAndFacingADirection();
+		realToyRobot.face(facedInDirection);
+		realToyRobot.move();
+		verify(facedInDirection).directDirectableFrom(realToyRobot, aPosition);
+	}
+	
+	@Test
+	public void WhenTurningLeft_IfPlaced_ShouldTurnCounterClockwise() {
+		placeAtAPositionAndFacingADirection();
+		realToyRobot.turnLeft();
+		verify(aDirection).turnCounterClockwise(realToyRobot);
+	}
+	
+	@Test
+	public void WhenTurningLeft_IfNotPlaced_ShouldDiscardAction() {
+		verifyDiscardsActionWithDirection((robot) -> robot.turnLeft()); 
+	}
+	
+	@Test
+	public void WhenTurningRight_IfPlaced_ShouldTurnLeft() {
+		placeAtAPositionAndFacingADirection();
 		realToyRobot.turnRight();
-		verify(startingDirection).clockwise();
+		verify(aDirection).turnClockwise(realToyRobot);
 	}
 	
 	@Test
-	public void WhenTurningLeft_IfPlaced_ShouldTurnInCounterClockwiseDirection() {
-		placeAtStartingPositionAndDirection();
-		realToyRobot.turnLeft();
-		verify(startingDirection).counterClockwise();
+	public void WhenTurningRight_IfNotPlaced_ShouldDiscardAction() {
+		verifyDiscardsActionWithDirection((robot) -> robot.turnRight());
 	}
 	
 	@Test
-	public void WhenMoving_IfPlacedAndTurned_ShouldMoveInFacingDirection() {
-		placeAtStartingPositionAndDirection();
-		realToyRobot.turnLeft();
-		realToyRobot.move();
-		verifyMoveInDirection(startingDirection.counterClockwise());
-	}
-	
-	@Test
-	public void WhenReporting_IfPlaced_ShouldPrintFacingDirection() {
-		placeAtStartingPositionAndDirection();
+	public void WhenReporting_IfPlaced_ShouldReportPositionAndDirection() {
+		placeAtAPositionAndFacingADirection();
 		realToyRobot.report();
-		verify(reportStream).report(startingDirection);
+		verify(reportStream).report(aPosition, aDirection);
 	}
 	
 	@Test
-	public void WhenReporting_IfPlaced_ShouldReportEnvironment() {
-		placeAtStartingPositionAndDirection();
-		realToyRobot.report();
-		verify(environment).reportTo(reportStream);
+	public void WhenReporting_IfNotPlaced_ShouldDiscardAction() {
+		verifyDiscardsActionWithDirection((robot) -> robot.report());
 	}
 }

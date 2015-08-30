@@ -1,8 +1,8 @@
 package toyrobotsimulator;
 
-public interface Environment extends ReportsPosition {
+public interface Environment {
 
-	void placeObjectAtPosition(final EnvironmentObject environmentObject, final Position position);
-
-	void moveInDirection(final Direction direction);
+	void tryPlaceObjectAtPositionFacing(final EnvironmentObject environmentObject, final Position position, final Direction facingDirection);
+	
+	void tryMoveObjectTo(final EnvironmentObject environmentObject, final Position position);
 }

@@ -20,15 +20,22 @@ public class Position implements Coordinate {
 		}
 	}
 	
-	public boolean isBetween(final Position position1, final Position position2) {
+	public void ifBetweenPoints(final Position position1, final Position position2, final BetweenBoundsResult betweenBoundsResult) {
+		if(isBetween(position1, position2))
+			betweenBoundsResult.between();
+	}
+	
+	private boolean isBetween(final Position position1, final Position position2) {
 		return isHorizontallyBetween(position1, position2) &&
 				isVerticallyBetween(position1, position2);
 	}
 	
-	public void translateByPositionTo(final Coordinate coordinate, final Directable directable) {
+	@Override
+	public void translateByCoordinateTo(final Coordinate coordinate, final Directable directable) {
 		coordinate.translateFromXYTo(this.x, this.y, directable);
 	}
 	
+	@Override
 	public void translateFromXYTo(final int x, final int y, final Directable directable) {
 		directable.directTo(new Position(this.x + x, this.x + y));
 	}

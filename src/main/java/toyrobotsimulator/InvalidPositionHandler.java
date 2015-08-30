@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface OutOfBoundsDecision {
+public interface InvalidPositionHandler {
 
 	void avoid();
 }

@@ -21,63 +21,61 @@ public enum CardinalDirection implements Direction {
 		}
 	}
 
-	public CardinalDirection clockwise() {
-		CardinalDirection counterClockwise = this;
-		
+	public void turnClockwise(final Turnable turnable) {
 		switch(this) {
 		case NORTH:
-			counterClockwise = EAST;
-			break;
+			turnable.face(EAST);
+			return;
 		case EAST:
-			counterClockwise = SOUTH;
-			break;
+			turnable.face(SOUTH);
+			return;
 		case SOUTH:
-			counterClockwise = WEST;
-			break;
+			turnable.face(WEST);
+			return;
 		case WEST:
-			counterClockwise = NORTH;
-			break;
+			turnable.face(NORTH);
+			return;
+		default:
+			turnable.face(this);
+			return;
 		}
-		
-		return counterClockwise;
 	}
 	
-	public CardinalDirection counterClockwise() {
-		CardinalDirection counterClockwise = this;
-		
+	public void turnCounterClockwise(final Turnable turnable) {
 		switch(this) {
 		case NORTH:
-			counterClockwise = WEST;
-			break;
+			turnable.face(WEST);
+			return;
 		case WEST:
-			counterClockwise = SOUTH;
-			break;
+			turnable.face(SOUTH);
+			return;
 		case SOUTH:
-			counterClockwise = EAST;
-			break;
+			turnable.face(EAST);
+			return;
 		case EAST:
-			counterClockwise = NORTH;
-			break;
+			turnable.face(NORTH);
+			return;
+		default:
+			turnable.face(this);
+			return;
 		}
-		
-		return counterClockwise;
 	}
 
 	@Override
 	public void directDirectableFrom(final Directable directable, final Coordinate fromCoordinate) {
 		switch(this) {
 		case NORTH:
-			fromCoordinate.translateByPositionTo(new Position(0, 1), directable);
-			break;
+			fromCoordinate.translateByCoordinateTo(new Position(0, 1), directable);
+			return;
 		case SOUTH:
-			fromCoordinate.translateByPositionTo(new Position(0, -1), directable);
-			break;
+			fromCoordinate.translateByCoordinateTo(new Position(0, -1), directable);
+			return;
 		case EAST:
-			fromCoordinate.translateByPositionTo(new Position(1, 0), directable);
-			break;
+			fromCoordinate.translateByCoordinateTo(new Position(1, 0), directable);
+			return;
 		case WEST:
-			fromCoordinate.translateByPositionTo(new Position(-1, 0), directable);
-			break;
+			fromCoordinate.translateByCoordinateTo(new Position(-1, 0), directable);
+			return;
 		}	
 	}
 }

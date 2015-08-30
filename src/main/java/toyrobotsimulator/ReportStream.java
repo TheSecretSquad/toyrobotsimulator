@@ -1,6 +1,6 @@
 package toyrobotsimulator;
 
-public interface ReportStream extends PositionReportStream {
+public interface ReportStream {
 	
-	void report(final Direction direction);
+	void report(final Position position, final Direction direction);
 }

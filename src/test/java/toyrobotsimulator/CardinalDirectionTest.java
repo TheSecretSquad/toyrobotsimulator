@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
+import java.util.function.Consumer;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,6 +18,21 @@ public class CardinalDirectionTest {
 	private Directable directable;
 	@Mock
 	private Coordinate fromCoordinate;
+	@Mock
+	private Turnable turnable;
+	
+	private void verifyCounterClockwiseTurnFromDirectionFaces(final Direction direction, final Direction newDirection) {
+		verifyTurnActionDirectionFaces(() -> direction.turnCounterClockwise(turnable), newDirection);
+	}
+	
+	private void verifyClockwiseTurnFromDirectionFaces(final Direction direction, final Direction newDirection) {
+		verifyTurnActionDirectionFaces(() -> direction.turnClockwise(turnable), newDirection);
+	}
+	
+	private void verifyTurnActionDirectionFaces(final Runnable turnAction, final Direction newDirection) {
+		turnAction.run();
+		verify(turnable).face(newDirection);
+	}
 	
 	@Test(expected=InvalidDirectionException.class)
 	public void WhenCreating_WithInvalidDirectionString_ThrowsException() {
@@ -37,30 +54,30 @@ public class CardinalDirectionTest {
 	}
 	
 	@Test
-	public void WhenMovingCounterClockwise_ReturnsCardinalDirectionInOneCounterClockwiseMovement() {
-		assertEquals(CardinalDirection.WEST, CardinalDirection.NORTH.counterClockwise());
-		assertEquals(CardinalDirection.SOUTH, CardinalDirection.WEST.counterClockwise());
-		assertEquals(CardinalDirection.EAST, CardinalDirection.SOUTH.counterClockwise());
-		assertEquals(CardinalDirection.NORTH, CardinalDirection.EAST.counterClockwise());
+	public void WhenTurningCounterClockwise_FacesDirectionInOneCounterClockwiseMovement() {
+		verifyCounterClockwiseTurnFromDirectionFaces(CardinalDirection.NORTH, CardinalDirection.WEST);
+		verifyCounterClockwiseTurnFromDirectionFaces(CardinalDirection.WEST, CardinalDirection.SOUTH);
+		verifyCounterClockwiseTurnFromDirectionFaces(CardinalDirection.SOUTH, CardinalDirection.EAST);
+		verifyCounterClockwiseTurnFromDirectionFaces(CardinalDirection.EAST, CardinalDirection.NORTH);
 	}
 	
 	@Test
 	public void WhenMovingClockwise_ReturnsCardinalDirectionInOneClockwiseMovement() {
-		assertEquals(CardinalDirection.EAST, CardinalDirection.NORTH.clockwise());
-		assertEquals(CardinalDirection.SOUTH, CardinalDirection.EAST.clockwise());
-		assertEquals(CardinalDirection.WEST, CardinalDirection.SOUTH.clockwise());
-		assertEquals(CardinalDirection.NORTH, CardinalDirection.WEST.clockwise());
+		verifyClockwiseTurnFromDirectionFaces(CardinalDirection.NORTH, CardinalDirection.EAST);
+		verifyClockwiseTurnFromDirectionFaces(CardinalDirection.EAST, CardinalDirection.SOUTH);
+		verifyClockwiseTurnFromDirectionFaces(CardinalDirection.SOUTH, CardinalDirection.WEST);
+		verifyClockwiseTurnFromDirectionFaces(CardinalDirection.WEST, CardinalDirection.NORTH);
 	}
 	
 	@Test
 	public void WhenDirecting_TranslatesByCorrectPosition() {
 		CardinalDirection.NORTH.directDirectableFrom(directable, fromCoordinate);
-		verify(fromCoordinate).translateByPositionTo(new Position(0, 1), directable);
+		verify(fromCoordinate).translateByCoordinateTo(new Position(0, 1), directable);
 		CardinalDirection.SOUTH.directDirectableFrom(directable, fromCoordinate);
-		verify(fromCoordinate).translateByPositionTo(new Position(0, -1), directable);
+		verify(fromCoordinate).translateByCoordinateTo(new Position(0, -1), directable);
 		CardinalDirection.EAST.directDirectableFrom(directable, fromCoordinate);
-		verify(fromCoordinate).translateByPositionTo(new Position(1, 0), directable);
+		verify(fromCoordinate).translateByCoordinateTo(new Position(1, 0), directable);
 		CardinalDirection.WEST.directDirectableFrom(directable, fromCoordinate);
-		verify(fromCoordinate).translateByPositionTo(new Position(-1, 0), directable);
+		verify(fromCoordinate).translateByCoordinateTo(new Position(-1, 0), directable);
 	}
 }

@@ -2,9 +2,9 @@ package toyrobotsimulator;
 
 public interface Direction {
 	
-	Direction clockwise();
+	void turnClockwise(final Turnable turnable);
 	
-	Direction counterClockwise();
+	void turnCounterClockwise(final Turnable turnable);
 	
 	void directDirectableFrom(final Directable directable, final Coordinate fromCoordinate);
 }
