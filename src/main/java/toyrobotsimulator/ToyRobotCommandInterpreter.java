@@ -47,17 +47,13 @@ public class ToyRobotCommandInterpreter implements CommandInterpreter, CommandRe
 		if(commandName.equals(reportCommandName))
 			return new ReportCommand(toyRobot);
 		
-		return unknownCommand();
+		throw new UnknownCommandException();
 	}
 	
 	private Command commandWithParametersFor(final CommandName commandName, final CommandParameters commandParameters) {
 		if(commandName.equals(placeCommandName))
 			return new PlaceCommand(commandParameters, toyRobot);
 		
-		return unknownCommand();
-	}
-
-	private Command unknownCommand() {
 		throw new UnknownCommandException();
 	}
 

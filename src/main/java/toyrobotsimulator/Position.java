@@ -1,5 +1,7 @@
 package toyrobotsimulator;
 
+import java.io.PrintStream;
+
 public class Position implements Coordinate {
 	
 	private final int x;
@@ -37,7 +39,7 @@ public class Position implements Coordinate {
 	
 	@Override
 	public void translateFromXYTo(final int x, final int y, final Directable directable) {
-		directable.directTo(new Position(this.x + x, this.x + y));
+		directable.directTo(new Position(this.x + x, this.y + y));
 	}
 	
 	private boolean isHorizontallyBetween(final Position position1, final Position position2) {
@@ -52,8 +54,12 @@ public class Position implements Coordinate {
 		return minY <= y && y <= maxY;
 	}
 	
+	public void printOn(final PrintStream printStream) {
+		printStream.print(this.toString());
+	}
+	
 	public String toString() {
-		return "(" + x + "," + y + ")";
+		return x + "," + y;
 	}
 
 	@Override

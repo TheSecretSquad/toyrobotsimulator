@@ -1,10 +1,18 @@
 package toyrobotsimulator;
 
+import java.io.PrintStream;
+
 public enum CardinalDirection implements Direction {
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST;
+	NORTH("NORTH"),
+	SOUTH("SOUTH"),
+	EAST("EAST"),
+	WEST("WEST");
+	
+	private final String stringValue;
+	
+	private CardinalDirection(final String stringValue) {
+		this.stringValue = stringValue;
+	}
 	
 	public static CardinalDirection createFrom(final String stringValue) {
 		switch(stringValue.toUpperCase()) {
@@ -77,5 +85,10 @@ public enum CardinalDirection implements Direction {
 			fromCoordinate.translateByCoordinateTo(new Position(-1, 0), directable);
 			return;
 		}	
+	}
+
+	@Override
+	public void printOn(final PrintStream printStream) {
+		printStream.print(this.stringValue);		
 	}
 }

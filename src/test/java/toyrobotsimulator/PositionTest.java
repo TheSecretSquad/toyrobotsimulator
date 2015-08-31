@@ -1,7 +1,6 @@
 package toyrobotsimulator;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
@@ -24,9 +23,6 @@ public class PositionTest {
 	private Position upperOutOfBoundsY;
 	private Position lowOutOfBoundsXY;
 	private Position upperOutOfBoundsXY;
-	private Position translatingPositionStart;
-	private Position translatingByPosition;
-	private Position translatedPosition;
 	private Position equalsInstance;
 	private Position equalsOtherInstance;
 
@@ -47,9 +43,6 @@ public class PositionTest {
 		upperOutOfBoundsY = new Position(3,4);
 		lowOutOfBoundsXY = new Position(0,0);
 		upperOutOfBoundsXY = new Position(4,4);
-		translatingPositionStart = new Position(1,1);
-		translatingByPosition = new Position(2,2);
-		translatedPosition = new Position(3,3);
 		equalsInstance = new Position(1,1);
 		equalsOtherInstance = new Position(1,1);
 	}
@@ -105,7 +98,7 @@ public class PositionTest {
 	
 	@Test
 	public void WhenToString_ReturnsStringFormattedAsCoordinate() {
-		assertEquals("(1,2)", new Position(1,2).toString());
+		assertEquals("1,2", new Position(1,2).toString());
 	}
 	
 	@Test
@@ -139,8 +132,20 @@ public class PositionTest {
 	}
 	
 	@Test
-	public void WhenTranslatingByPosition_ShouldDirectToTranslatedPosition() {
-		translatingPositionStart.translateByCoordinateTo(translatingByPosition, directable);
-		verify(directable).directTo(translatedPosition);
+	public void WhenTranslatingByPosition_IfTranslatingWithSameXY_ShouldDirectToTranslatedPosition() {
+		new Position(1,1).translateByCoordinateTo(new Position(2,2), directable);
+		verify(directable).directTo(new Position(3,3));
+	}
+	
+	@Test
+	public void WhenTranslatingByPosition_IfTranslatingWithDifferentX_ShouldDirectToTranslatedPosition() {
+		new Position(1,1).translateByCoordinateTo(new Position(3,2), directable);
+		verify(directable).directTo(new Position(4,3));
+	}
+	
+	@Test
+	public void WhenTranslatingByPosition_IfTranslatingWithDifferentY_ShouldDirectToTranslatedPosition() {
+		new Position(1,1).translateByCoordinateTo(new Position(2,3), directable);
+		verify(directable).directTo(new Position(3,4));
 	}
 }

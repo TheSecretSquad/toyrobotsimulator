@@ -1,5 +1,7 @@
 package toyrobotsimulator;
 
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -52,11 +54,15 @@ public class RealToyRobotTest {
 		verifyDiscardsActionWithMock(toyRobotConsumer, aDirection);
 	}
 	
+	private void verifyDiscardsActionWithReportStream(final Consumer<ToyRobot> toyRobotConsumer) {
+		verifyDiscardsActionWithMock(toyRobotConsumer, reportStream);
+	}
+	
 	private void issueCommand() {
 		realToyRobot.issueCommand(command);
 	}
 	
-	private void placeActionAtPositionFacingADirection() {
+	private void doPlaceActionAtPositionFacingADirection() {
 		realToyRobot.place(aPosition, aDirection);
 	}
 	
@@ -72,8 +78,8 @@ public class RealToyRobotTest {
 	
 	@Test
 	public void WhenPlacing_ShouldTryToPlaceSelfAtPosition() {
-		placeActionAtPositionFacingADirection();
-		verify(environment).tryPlaceObjectAtPositionFacing(realToyRobot, aPosition, aDirection);
+		doPlaceActionAtPositionFacingADirection();
+		verify(environment).tryPlaceObjectAtPositionOnSuccess(eq(realToyRobot), eq(aPosition), isA(ToyRobotPlaceSuccessfulHandler.class));
 	}
 	
 	@Test
@@ -143,6 +149,12 @@ public class RealToyRobotTest {
 	
 	@Test
 	public void WhenReporting_IfNotPlaced_ShouldDiscardAction() {
-		verifyDiscardsActionWithDirection((robot) -> robot.report());
+		verifyDiscardsActionWithReportStream((robot) -> robot.report());
+	}
+	
+	@Test
+	public void WhenPlacing_IfPlaced_ShouldDiscardAction() {
+		placeAtAPositionAndFacingADirection();
+		verifyDiscardsActionWithEnvironment((robot) -> robot.place(aPosition, aDirection));
 	}
 }

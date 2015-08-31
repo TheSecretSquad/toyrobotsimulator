@@ -13,13 +13,15 @@ public class TableTop implements Environment {
 	}
 
 	@Override
-	public void tryPlaceObjectAtPositionFacing(final EnvironmentObject environmentObject, final Position position, final Direction direction) {
-		occupyPositionWithObjectFacing(position, environmentObject, direction);
+	public void tryPlaceObjectAtPositionOnSuccess(final EnvironmentObject environmentObject, final Position position, final PlaceSuccessHandler placeSuccessHandler) {
+		occupyPositionWithObjectFacing(position, environmentObject, placeSuccessHandler);
 	}
 
-	private void occupyPositionWithObjectFacing(final Position position, final EnvironmentObject environmentObject, final Direction direction) {
-		position.ifBetweenPoints(lowBoundPosition(), upperBoundPosition(),
-				() -> environmentObject.placeAtPositionFacing(position, direction));
+	private void occupyPositionWithObjectFacing(final Position position, final EnvironmentObject environmentObject, final PlaceSuccessHandler placeSuccessHandler) {
+		position.ifBetweenPoints(lowBoundPosition(), upperBoundPosition(),() -> {
+			this.environmentObject = environmentObject;
+			placeSuccessHandler.placeSuccessful();
+		});
 	}
 	
 	private Position lowBoundPosition() {
@@ -32,7 +34,11 @@ public class TableTop implements Environment {
 
 	@Override
 	public void tryMoveObjectTo(final EnvironmentObject environmentObject, final Position position) {
-		// TODO Auto-generated method stub
-		
+		if(environmentObject.equals(this.environmentObject))
+			ifPositionInBoundsDo(position, () -> this.environmentObject.moveTo(position));
+	}
+	
+	private void ifPositionInBoundsDo(final Position position, final Runnable action) {
+		position.ifBetweenPoints(lowBoundPosition(), upperBoundPosition(), () -> action.run());
 	}
 }
