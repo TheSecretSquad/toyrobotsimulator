@@ -1,4 +1,10 @@
 # Toy Robot Simulation
+Toy robot simulation designed using east oriented code:
+- http://jamesladdcode.com/2007/02/02/draft-a-design-compass-east-oriented/
+- http://jamesladdcode.com/2009/08/01/east-clean-and-dry/
+- http://jamesladdcode.com/2009/10/01/more-east/
+- http://jamesladdcode.com/2011/06/12/more-east-2/
+- http://jamesladdcode.com/2011/08/10/east-example-code/﻿
 
 ## Description
 
