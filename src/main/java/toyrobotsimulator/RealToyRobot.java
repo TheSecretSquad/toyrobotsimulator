@@ -1,5 +1,11 @@
 package toyrobotsimulator;
-
+/*
+ * This class is admittedly a bit of a self-indulgent design. The specification
+ * for the project states that the robot is the only thing on the tabletop. Which means
+ * there are no other aspects of the environment that will affect the robot's movement.
+ * I could have implemented this by just passing in the size of the environment to the
+ * robot, but I chose to design the environment separately as an experiment.
+ */
 public class RealToyRobot implements ToyRobot, EnvironmentObject, Placeable, Directable, Turnable {
 
 	private final Environment environment;
