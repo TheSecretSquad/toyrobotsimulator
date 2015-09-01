@@ -53,8 +53,8 @@ public class RealToyRobot implements ToyRobot, EnvironmentObject, Placeable, Dir
 	private void tryPlaceAtPositionOnSuccess(final Position position, final PlaceSuccessHandler placeSuccessHandler) {
 		environment.tryPlaceObjectAtPositionOnSuccess(this, position, placeSuccessHandler);
 	}
-	private ToyRobotPlaceSuccessfulHandler onSuccess(final Position position, final Direction facingDirection) {
-		return new ToyRobotPlaceSuccessfulHandler(this, position, facingDirection);
+	private ToyRobotPlaceSuccessHandler onSuccess(final Position position, final Direction facingDirection) {
+		return new ToyRobotPlaceSuccessHandler(this, position, facingDirection);
 	}
 
 	@Override

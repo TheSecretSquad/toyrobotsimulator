@@ -79,7 +79,7 @@ public class RealToyRobotTest {
 	@Test
 	public void WhenPlacing_ShouldTryToPlaceSelfAtPosition() {
 		doPlaceActionAtPositionFacingADirection();
-		verify(environment).tryPlaceObjectAtPositionOnSuccess(eq(realToyRobot), eq(aPosition), isA(ToyRobotPlaceSuccessfulHandler.class));
+		verify(environment).tryPlaceObjectAtPositionOnSuccess(eq(realToyRobot), eq(aPosition), isA(ToyRobotPlaceSuccessHandler.class));
 	}
 	
 	@Test
