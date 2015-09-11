@@ -17,6 +17,10 @@ public class ToyRobotSimulationTest {
 	@Mock
 	private PrintStream printStream;
 	
+	private void verifySimulationReportsRunning() {
+		verify(printStream).println("Running");
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		toyRobotSimulation = new ToyRobotSimulation(printStream);
@@ -25,6 +29,6 @@ public class ToyRobotSimulationTest {
 	@Test
 	public void WhenRunning_ReportsRunningStatus() {
 		toyRobotSimulation.run();
-		verify(printStream).println("Running");
+		verifySimulationReportsRunning();
 	}
 }
