@@ -21,7 +21,7 @@ public class ToyRobotSimulationFactoryTest {
 	}
 	
 	@Test
-	public void WhenCreate_CalledMultipleTimes_ReturnsSimulationObjects() {
+	public void WhenCreate_CalledMultipleTimes_ReturnsNewSimulationObjects() {
 		Simulation s1 = toyRobotSimulationFactory.create();
 		Simulation s2 = toyRobotSimulationFactory.create();
 		assertNotSame(s1, s2);
