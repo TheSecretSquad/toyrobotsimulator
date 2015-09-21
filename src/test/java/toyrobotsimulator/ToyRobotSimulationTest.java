@@ -13,18 +13,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ToyRobotSimulationTest {
 
 	private ToyRobotSimulation toyRobotSimulation;
-	private StringOutputStream stringOutputStream;
+	private CapturingPrintStream capturingPrintStream;
 	private PrintStream printStream;
 	
 	private void verifySimulationReportsRunning() {
 		String expectedContents = "Running" + System.lineSeparator();
-		assertEquals(expectedContents, stringOutputStream.contents());
+		assertEquals(expectedContents, capturingPrintStream.contents());
 	}
 	
 	@Before
 	public void setUp() throws Exception {
-		stringOutputStream = new StringOutputStream();
-		printStream = new PrintStream(stringOutputStream);
+		capturingPrintStream = new CapturingPrintStream();
+		printStream = new PrintStream(capturingPrintStream);
 		toyRobotSimulation = new ToyRobotSimulation(printStream);
 	}
 
