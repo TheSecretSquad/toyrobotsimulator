@@ -1,29 +1,27 @@
 package toyrobotsimulator;
 
-import static org.mockito.Mockito.*;
-
-import java.io.PrintStream;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ToyRobotSimulationTest {
 
 	private ToyRobotSimulation toyRobotSimulation;
-	@Mock
-	private PrintStream printStream;
+	private CapturingPrintStream capturingPrintStream;
 	
 	private void verifySimulationReportsRunning() {
-		verify(printStream).println("Running");
+		String expectedContents = "Running" + System.lineSeparator();
+		assertEquals(expectedContents, capturingPrintStream.contents());
 	}
 	
 	@Before
 	public void setUp() throws Exception {
-		toyRobotSimulation = new ToyRobotSimulation(printStream);
+		capturingPrintStream = new CapturingPrintStream();
+		toyRobotSimulation = new ToyRobotSimulation(capturingPrintStream);
 	}
 
 	@Test
