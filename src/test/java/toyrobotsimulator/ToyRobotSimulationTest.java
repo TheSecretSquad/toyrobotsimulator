@@ -14,7 +14,6 @@ public class ToyRobotSimulationTest {
 
 	private ToyRobotSimulation toyRobotSimulation;
 	private CapturingPrintStream capturingPrintStream;
-	private PrintStream printStream;
 	
 	private void verifySimulationReportsRunning() {
 		String expectedContents = "Running" + System.lineSeparator();
@@ -24,8 +23,7 @@ public class ToyRobotSimulationTest {
 	@Before
 	public void setUp() throws Exception {
 		capturingPrintStream = new CapturingPrintStream();
-		printStream = new PrintStream(capturingPrintStream);
-		toyRobotSimulation = new ToyRobotSimulation(printStream);
+		toyRobotSimulation = new ToyRobotSimulation(capturingPrintStream);
 	}
 
 	@Test
