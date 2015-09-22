@@ -18,6 +18,10 @@ public class ToyRobotSimulationTest {
 		assertEquals(expectedContents, capturingPrintStream.contents());
 	}
 	
+	private void verifySimulationReportsNothing() {
+		verifySimulationReportsRunning();
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		capturingPrintStream = new CapturingPrintStream();
@@ -28,5 +32,12 @@ public class ToyRobotSimulationTest {
 	public void WhenRunning_ReportsRunningStatus() {
 		toyRobotSimulation.run();
 		verifySimulationReportsRunning();
+	}
+	
+	@Test
+	public void WhenRunning_IfRobotIsNotPlaced_AndReportCommandEntered_ReportsNothing() {
+		toyRobotSimulation.enterCommand("REPORT");
+		toyRobotSimulation.run();
+		verifySimulationReportsNothing();
 	}
 }

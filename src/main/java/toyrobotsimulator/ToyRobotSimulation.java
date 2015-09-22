@@ -13,4 +13,8 @@ public class ToyRobotSimulation implements Simulation {
 	public void run() {
 		printStream.println("Running");
 	}
+
+	public void enterCommand(final String command) {
+				
+	}
 }
