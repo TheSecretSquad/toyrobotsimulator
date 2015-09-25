@@ -19,8 +19,8 @@ public class ToyRobotSimulationTest {
 		assertTrue(capturedContentsMatches(atBeginning(runningOutput())));
 	}
 	
-	private String atBeginning(String value) {
-		return "^" + value;
+	private Pattern atBeginning(final String value) {
+		return Pattern.compile("^" + value);
 	}
 	
 	private String capturedContents() {
@@ -31,15 +31,18 @@ public class ToyRobotSimulationTest {
 		return outputLineWithString("Running");
 	}
 	
-	private boolean capturedContentsMatches(final String regex) {
-		return Pattern
-				.compile(regex)
+	private boolean capturedContentsMatches(final Pattern pattern) {
+		return pattern
 				.matcher(capturedContents())
 				.find();
 	}
 	
+	private boolean capturedContentsHas(final String content) {
+		return capturedContents().contains(content);
+	}
+	
 	private void verifySimulationReportsNotPlaced() {
-		assertTrue(capturedContentsMatches(notPlacedOutput()));
+		assertTrue(capturedContentsHas(notPlacedOutput()));
 	}
 	
 	private String notPlacedOutput() {
