@@ -1,6 +1,8 @@
 package toyrobotsimulator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +16,38 @@ public class ToyRobotSimulationTest {
 	private CapturingPrintStream capturingPrintStream;
 	
 	private void verifySimulationReportsRunning() {
-		String expectedContents = "Running" + System.lineSeparator();
-		assertEquals(expectedContents, capturingPrintStream.contents());
+		assertTrue(capturedContentsMatches(atBeginning(runningOutput())));
 	}
 	
-	private void verifySimulationReportsNothing() {
-		verifySimulationReportsRunning();
+	private String atBeginning(String value) {
+		return "^" + value;
+	}
+	
+	private String capturedContents() {
+		return capturingPrintStream.contents();
+	}
+	
+	private String runningOutput() {
+		return outputLineWithString("Running");
+	}
+	
+	private boolean capturedContentsMatches(final String regex) {
+		return Pattern
+				.compile(regex)
+				.matcher(capturedContents())
+				.find();
+	}
+	
+	private void verifySimulationReportsNotPlaced() {
+		assertTrue(capturedContentsMatches(notPlacedOutput()));
+	}
+	
+	private String notPlacedOutput() {
+		return outputLineWithString("Not placed");
+	}
+	
+	private String outputLineWithString(final String string) {
+		return string + System.lineSeparator();
 	}
 	
 	@Before
@@ -35,9 +63,10 @@ public class ToyRobotSimulationTest {
 	}
 	
 	@Test
-	public void WhenRunning_IfRobotIsNotPlaced_AndReportCommandEntered_ReportsNothing() {
+	public void WhenRunning_IfRobotIsNotPlaced_AndReportCommandEntered_ReportsNotPlaced() {
+		// No place command entered
 		toyRobotSimulation.enterCommand("REPORT");
 		toyRobotSimulation.run();
-		verifySimulationReportsNothing();
+		verifySimulationReportsNotPlaced();
 	}
 }
