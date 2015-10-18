@@ -2,8 +2,6 @@ package toyrobotsimulator;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.regex.Pattern;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,48 +12,44 @@ public class ToyRobotSimulationTest {
 
 	private ToyRobotSimulation toyRobotSimulation;
 	private CapturingPrintStream capturingPrintStream;
+	private LineMatcher lineMatcher;
 	
 	private void verifySimulationReportsRunning() {
-		assertTrue(capturedContentsMatches(atBeginning(runningOutput())));
+		assertTrue(lineMatcher.isFirstIn(runningOutput(), capturedContents()));
 	}
 	
-	private Pattern atBeginning(final String value) {
-		return Pattern.compile("^" + value);
+	private String runningOutput() {
+		return "Running";
+	}
+	
+	private void verifySimulationReportsNotPlaced() {
+		verifyContentsContainsLine(notPlacedOutput());
+	}
+	
+	private String notPlacedOutput() {
+		return "Not placed";
+	}
+
+	private void verifySimulationReportsPosition(final int x, final int y, final String facing) {
+		verifyContentsContainsLine(positionOutput(x, y, facing));
+	}
+	
+	private String positionOutput(final int x, final int y, final String facing) {
+		return String.format("%s,%s,%s", x, y, facing);
 	}
 	
 	private String capturedContents() {
 		return capturingPrintStream.contents();
 	}
 	
-	private String runningOutput() {
-		return outputLineWithString("Running");
-	}
-	
-	private boolean capturedContentsMatches(final Pattern pattern) {
-		return pattern
-				.matcher(capturedContents())
-				.find();
-	}
-	
-	private boolean capturedContentsHas(final String content) {
-		return capturedContents().contains(content);
-	}
-	
-	private void verifySimulationReportsNotPlaced() {
-		assertTrue(capturedContentsHas(notPlacedOutput()));
-	}
-	
-	private String notPlacedOutput() {
-		return outputLineWithString("Not placed");
-	}
-	
-	private String outputLineWithString(final String string) {
-		return string + System.lineSeparator();
+	private void verifyContentsContainsLine(final String line) {
+		assertTrue(lineMatcher.containsIn(line, capturedContents()));
 	}
 	
 	@Before
 	public void setUp() throws Exception {
 		capturingPrintStream = new CapturingPrintStream();
+		lineMatcher = new LineMatcher();
 		toyRobotSimulation = new ToyRobotSimulation(capturingPrintStream);
 	}
 
@@ -68,8 +62,16 @@ public class ToyRobotSimulationTest {
 	@Test
 	public void WhenRunning_IfRobotIsNotPlaced_AndReportCommandEntered_ReportsNotPlaced() {
 		// No place command entered
-		toyRobotSimulation.enterCommand("REPORT");
+		toyRobotSimulation.enterCommand(new RobotCommand("REPORT"));
 		toyRobotSimulation.run();
 		verifySimulationReportsNotPlaced();
+	}
+	
+	@Test
+	public void WhenRunning_IfRobotIsPlacedAt00FacingEast_Reports00East() {
+		RobotCommands commands = new RobotCommands("PLACE 0,0,EAST", "REPORT");
+		toyRobotSimulation.enterCommands(commands);
+		toyRobotSimulation.run();
+		verifySimulationReportsPosition(0, 0, "EAST");
 	}
 }
