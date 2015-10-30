@@ -11,12 +11,16 @@ public class RobotCommands {
 		return new RobotCommand(command);
 	}
 	
+	private static List<RobotCommand> robotCommandsFromStrings(final String ... commands) {
+		return Arrays.asList(commands).stream()
+				.map(RobotCommands::robotCommandFromString)
+				.collect(Collectors.toList());
+	}
+	
 	private List<RobotCommand> commands;
 	
 	public RobotCommands(final String ... commands) {
-		this(Arrays.asList(commands).stream()
-				.map(RobotCommands::robotCommandFromString)
-				.collect(Collectors.toList()));
+		this(robotCommandsFromStrings(commands));
 	}
 	
 	public RobotCommands(final RobotCommand ... commands) {
