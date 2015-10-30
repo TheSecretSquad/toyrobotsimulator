@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 public class ToyRobotSimulation implements Simulation {
 
-	public final PrintStream printStream;
+	private final PrintStream printStream;
 	
 	public ToyRobotSimulation(final PrintStream printStream) {
 		this.printStream = printStream;
