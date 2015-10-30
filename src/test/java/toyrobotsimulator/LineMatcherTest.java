@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MatcherTest {
+public class LineMatcherTest {
 
 	private LineMatcher lineMatcher;
 	private String line1Content;
