@@ -34,7 +34,7 @@ public class RobotCommandsTest {
 	}
 	
 	@Test
-	public void WhenEachDo_RunsActionExactly_InCorrectOrder() {
+	public void WhenEachDo_RunsAction_InCorrectOrder() {
 		robotCommands.eachDo(robotCommandAction);
 		 InOrder inOrder = inOrder(robotCommandAction);
 		 inOrder.verify(robotCommandAction).actionWith(command1);
