@@ -19,6 +19,10 @@ public class RobotCommands {
 	
 	private List<RobotCommand> commands;
 	
+	public RobotCommands() {
+		this(new ArrayList<>());
+	}
+	
 	public RobotCommands(final String ... commands) {
 		this(robotCommandsFromStrings(commands));
 	}
@@ -29,5 +33,18 @@ public class RobotCommands {
 	
 	public RobotCommands(final List<RobotCommand> commands) {
 		this.commands = new ArrayList<RobotCommand>(commands);
+	}
+
+	public void eachDo(final RobotCommandAction robotCommandAction) {
+		commands.stream()
+			.forEachOrdered((command) -> robotCommandAction.actionWith(command));
+	}
+
+	public void add(final RobotCommand command) {
+		commands.add(command);		
+	}
+
+	public void add(final RobotCommands addedCommands) {
+		addedCommands.eachDo((command) -> add(command));
 	}
 }
