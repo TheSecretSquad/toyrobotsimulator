@@ -5,10 +5,16 @@ import java.io.PrintStream;
 public class ToyRobotSimulation implements Simulation {
 
 	private final PrintStream printStream;
+	private final RobotCommands robotCommands;
+	
+	public ToyRobotSimulation(final PrintStream printStream, final RobotCommands robotCommands) {
+		this.printStream = printStream;
+		this.robotCommands = robotCommands;
+	}
 	
 	public ToyRobotSimulation(final PrintStream printStream) {
-		this.printStream = printStream;
-	}
+		this(printStream, new RobotCommands());
+	} 
 	
 	public void run() {
 		printStream.println("Running");
@@ -17,10 +23,10 @@ public class ToyRobotSimulation implements Simulation {
 	}
 
 	public void enterCommand(final RobotCommand command) {
-		
+		robotCommands.add(command);
 	}
 
 	public void enterCommands(final RobotCommands commands) {
-		commands.eachDo((command) -> enterCommand(command));
+		robotCommands.add(commands);
 	}
 }

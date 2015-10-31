@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ToyRobotSimulationTest {
+public class ToyRobotSimulationIntegrationTest {
 
 	private ToyRobotSimulation toyRobotSimulation;
 	private CapturingPrintStream capturingPrintStream;

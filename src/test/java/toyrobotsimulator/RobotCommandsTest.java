@@ -15,29 +15,57 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class RobotCommandsTest {
 
 	private RobotCommands robotCommands;
+	@Mock
 	private RobotCommand command1;
+	@Mock
 	private RobotCommand command2;
 	@Mock
 	private RobotCommandAction robotCommandAction;
 
+	private void createCommandsWith(final RobotCommand... commands) {
+		robotCommands = new RobotCommands(commands);
+	}
+	
+	private void createEmptyCommands() {
+		robotCommands = new RobotCommands();
+	}
+	
 	@Before
 	public void setUp() throws Exception {
-		command1 = new RobotCommand("command1");
-		command2 = new RobotCommand("command2");
-		robotCommands = new RobotCommands(command1, command2);
 	}
 
+	private void verifyCommandsInOrder(final RobotCommand ... commands) {
+		robotCommands.eachDo(robotCommandAction);
+		InOrder inOrder = inOrder(robotCommandAction);
+		for(RobotCommand command : commands)
+			inOrder.verify(robotCommandAction).actionWith(command);
+	}
+	
 	@Test
 	public void WhenEachDo_With2Commands_RunsActionExactlyTwice() {
+		createCommandsWith(command1, command2);
 		robotCommands.eachDo(robotCommandAction);
 		verify(robotCommandAction, times(2)).actionWith(isA(RobotCommand.class));
 	}
 	
 	@Test
 	public void WhenEachDo_RunsAction_InCorrectOrder() {
-		robotCommands.eachDo(robotCommandAction);
-		 InOrder inOrder = inOrder(robotCommandAction);
-		 inOrder.verify(robotCommandAction).actionWith(command1);
-		 inOrder.verify(robotCommandAction).actionWith(command2);
+		createCommandsWith(command1, command2);
+		verifyCommandsInOrder(command1, command2);
+	}
+	
+	@Test
+	public void WhenAdd_CommandsAreAddedInOrder() {
+		createEmptyCommands();
+		robotCommands.add(command1);
+		robotCommands.add(command2);
+		verifyCommandsInOrder(command1, command2);
+	}
+	
+	@Test
+	public void WhenAddCommands_CommandsAreAddedInOrder() {
+		createEmptyCommands();
+		robotCommands.add(new RobotCommands(command1, command2));
+		verifyCommandsInOrder(command1, command2);
 	}
 }
