@@ -17,9 +17,10 @@ public class ToyRobotSimulation implements Simulation {
 	}
 
 	public void enterCommand(final RobotCommand command) {
+		
 	}
 
 	public void enterCommands(final RobotCommands commands) {
-		
+		commands.eachDo((command) -> enterCommand(command));
 	}
 }
